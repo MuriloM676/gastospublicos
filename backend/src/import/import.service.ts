@@ -153,8 +153,8 @@ export class ImportService {
             },
             create: {
               externalId,
-              politicianId: pol.id,
-              categoryId: category.id,
+              politician: { connect: { id: pol.id } },
+              category: { connect: { id: category.id } },
               supplier: desp.nomeFornecedor,
               description: desp.tipoDespesa,
               amount: desp.valorDocumento,

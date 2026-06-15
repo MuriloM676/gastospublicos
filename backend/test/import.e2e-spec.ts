@@ -109,6 +109,6 @@ describe('ImportService (e2e) — SPEC-002 Importação Câmara', () => {
       const result = await importService.importDespesas(2025);
       // Se chegou aqui sem exceção, o erro foi tratado com log
       expect(typeof result).toBe('number');
-    }, 30000);
+    }, 120000);
   });
 });

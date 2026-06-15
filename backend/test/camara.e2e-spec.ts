@@ -32,7 +32,7 @@ describe('CamaraService (e2e) — SPEC-013 Integração Câmara', () => {
       expect(deputado.nome).toBeDefined();
       expect(deputado.siglaPartido).toBeDefined();
       expect(deputado.siglaUf).toBeDefined();
-    });
+    }, 30000);
   });
 
   describe('CA-002 — Importar despesas parlamentares', () => {
@@ -97,3 +97,4 @@ describe('CamaraService (e2e) — SPEC-013 Integração Câmara', () => {
     }, 30000);
   });
 });
+
