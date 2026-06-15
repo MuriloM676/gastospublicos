@@ -105,14 +105,36 @@ export class ImportService {
       `Iniciando importação de despesas para ${ano}${mes ? `/${mes}` : ''}...`,
     );
 
-    const politicians = await this.prisma.politician.findMany();
+    const politicians = await this.prisma.politician.findMany({
+      where: {
+        expenses: {
+          none: {
+            expenseDate: mes
+              ? {
+                  gte: new Date(ano, (mes || 1) - 1, 1),
+                  lt: new Date(ano, mes || 1, 1),
+                }
+              : {
+                  gte: new Date(ano, 0, 1),
+                  lt: new Date(ano + 1, 0, 1),
+                },
+          },
+        },
+      },
+    });
+
+    this.logger.log(
+      `${politicians.length} deputados sem despesas para ${ano}. Importando...`,
+    );
 
     let total = 0;
+    let completed = 0;
     for (const pol of politicians) {
       try {
         const despesas = await this.retry(
           () => this.camara.getDespesas(pol.externalId, ano, mes),
           `getDespesas(${pol.externalId}, ${ano})`,
+          2,
         );
 
         for (const desp of despesas) {
@@ -142,6 +164,12 @@ export class ImportService {
           });
           total++;
         }
+        completed++;
+        if (completed % 50 === 0) {
+          this.logger.log(
+            `Progresso: ${completed}/${politicians.length} deputados, ${total} despesas`,
+          );
+        }
       } catch (error: any) {
         this.logger.error(
           `Erro ao importar despesas do deputado ${pol.externalId}: ${error.message}`,
@@ -149,7 +177,9 @@ export class ImportService {
       }
     }
 
-    this.logger.log(`Importadas ${total} despesas`);
+    this.logger.log(
+      `Importadas ${total} despesas de ${completed} deputados`,
+    );
     return total;
   }
 
