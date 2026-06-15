@@ -55,6 +55,10 @@ model Expense {
 
   politician Politician       @relation(fields: [politicianId], references: [id])
   category   ExpenseCategory  @relation(fields: [categoryId], references: [id])
+
+  @@index([politicianId])
+  @@index([categoryId])
+  @@index([expenseDate])
 }
 
 model ExpenseCategory {

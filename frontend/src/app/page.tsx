@@ -1,6 +1,30 @@
 import { Navbar } from "@/components/navbar";
+import { fetchTop3, fetchNationalRanking, formatCurrency } from "@/lib/api";
 
-export default function Home() {
+export default async function Home() {
+  let top3;
+  let ranking;
+
+  try {
+    top3 = await fetchTop3();
+  } catch {
+    top3 = null;
+  }
+
+  try {
+    ranking = await fetchNationalRanking({ limit: "20" });
+  } catch {
+    ranking = null;
+  }
+
+  const topItems = top3
+    ? [
+        { position: "🥇", data: top3.first },
+        { position: "🥈", data: top3.second },
+        { position: "🥉", data: top3.third },
+      ]
+    : [];
+
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
@@ -29,24 +53,25 @@ export default function Home() {
               Maiores Gastadores
             </h2>
             <div className="grid gap-6 md:grid-cols-3">
-              {[
-                { position: "🥇", name: "Carregando...", party: "---", state: "---", total: "R$ 0,00" },
-                { position: "🥈", name: "Carregando...", party: "---", state: "---", total: "R$ 0,00" },
-                { position: "🥉", name: "Carregando...", party: "---", state: "---", total: "R$ 0,00" },
-              ].map((item, index) => (
-                <div
+              {topItems.map((item, index) => (
+                <a
                   key={index}
+                  href={item.data ? `/politicians/${item.data.id}` : "#"}
                   className="rounded-lg border border-[#374151] bg-[#111827] p-6 transition-colors hover:bg-[#1F2937]"
                 >
                   <div className="text-3xl">{item.position}</div>
                   <div className="mt-4">
-                    <p className="text-lg font-semibold text-[#F9FAFB]">{item.name}</p>
-                    <p className="text-sm text-[#9CA3AF]">
-                      {item.party} - {item.state}
+                    <p className="text-lg font-semibold text-[#F9FAFB]">
+                      {item.data?.name ?? "Sem dados"}
                     </p>
-                    <p className="mt-2 text-xl font-bold text-[#3B82F6]">{item.total}</p>
+                    <p className="text-sm text-[#9CA3AF]">
+                      {item.data ? `${item.data.party} - ${item.data.state}` : "---"}
+                    </p>
+                    <p className="mt-2 text-xl font-bold text-[#3B82F6]">
+                      {item.data ? formatCurrency(item.data.totalExpenses) : "R$ 0,00"}
+                    </p>
                   </div>
-                </div>
+                </a>
               ))}
             </div>
           </div>
@@ -58,7 +83,7 @@ export default function Home() {
             <h2 className="mb-8 text-2xl font-semibold text-[#F9FAFB]">
               Ranking Nacional
             </h2>
-            <div className="rounded-lg border border-[#374151] bg-[#111827]">
+            <div className="rounded-lg border border-[#374151] bg-[#111827] overflow-x-auto">
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-[#374151]">
@@ -67,16 +92,37 @@ export default function Home() {
                     <th className="px-4 py-3 text-left text-sm font-medium text-[#9CA3AF]">Partido</th>
                     <th className="px-4 py-3 text-left text-sm font-medium text-[#9CA3AF]">Estado</th>
                     <th className="px-4 py-3 text-right text-sm font-medium text-[#9CA3AF]">Total Gasto</th>
-                    <th className="px-4 py-3 text-right text-sm font-medium text-[#9CA3AF]">Média Mensal</th>
                     <th className="px-4 py-3 text-right text-sm font-medium text-[#9CA3AF]">Perfil</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td colSpan={7} className="px-4 py-12 text-center text-sm text-[#9CA3AF]">
-                      Nenhum dado disponível. Aguardando importação.
-                    </td>
-                  </tr>
+                  {ranking?.items?.length ? (
+                    ranking.items.map((item) => (
+                      <tr key={item.id} className="border-b border-[#374151] hover:bg-[#1F2937]">
+                        <td className="px-4 py-3 text-sm text-[#9CA3AF]">{item.ranking}</td>
+                        <td className="px-4 py-3 text-sm text-[#F9FAFB]">{item.name}</td>
+                        <td className="px-4 py-3 text-sm text-[#9CA3AF]">{item.party}</td>
+                        <td className="px-4 py-3 text-sm text-[#9CA3AF]">{item.state}</td>
+                        <td className="px-4 py-3 text-sm text-right font-medium text-[#10B981]">
+                          {formatCurrency(item.totalExpenses)}
+                        </td>
+                        <td className="px-4 py-3 text-sm text-right">
+                          <a
+                            href={`/politicians/${item.id}`}
+                            className="text-[#3B82F6] hover:underline"
+                          >
+                            Ver Perfil
+                          </a>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={6} className="px-4 py-12 text-center text-sm text-[#9CA3AF]">
+                        Nenhum dado disponível. Aguardando importação.
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>

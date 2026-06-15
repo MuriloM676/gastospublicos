@@ -72,16 +72,16 @@ Critérios de Aceitação: CA-001 a CA-005 ✅
 | TASK-004 | Configurar banco PostgreSQL operacional | CA-004 | ✅ |
 | TASK-005 | Configurar documentação Swagger no backend | CA-005 | ✅ |
 
-### SPEC-002 — Importação de Dados da Câmara (Tasks: TASK-006 a TASK-010)
-Critérios de Aceitação: CA-001 a CA-005
+### SPEC-002 — Importação de Dados da Câmara (Tasks: TASK-006 a TASK-010) ✅
+Critérios de Aceitação: CA-001 a CA-005 ✅
 
-| Task ID | Descrição | Critério |
-|---------|-----------|----------|
-| TASK-006 | Implementar importação de todos os deputados ativos | CA-001 |
-| TASK-007 | Implementar importação de despesas associadas aos deputados | CA-002 |
-| TASK-008 | Implementar prevenção de duplicidade em sincronizações | CA-003 |
-| TASK-009 | Garantir consistência dos dados após múltiplas execuções | CA-004 |
-| TASK-010 | Implementar logging de erros de importação | CA-005 |
+| Task ID | Descrição | Critério | Status |
+|---------|-----------|----------|--------|
+| TASK-006 | Implementar importação de todos os deputados ativos | CA-001 | ✅ |
+| TASK-007 | Implementar importação de despesas associadas aos deputados | CA-002 | ✅ |
+| TASK-008 | Implementar prevenção de duplicidade em sincronizações | CA-003 | ✅ |
+| TASK-009 | Garantir consistência dos dados após múltiplas execuções | CA-004 | ✅ |
+| TASK-010 | Implementar logging de erros de importação | CA-005 | ✅ |
 
 ### SPEC-003 — Modelo de Dados (Tasks: TASK-011 a TASK-014) ✅
 Critérios de Aceitação: CA-001 a CA-004 ✅
@@ -157,37 +157,36 @@ Critérios de Aceitação: CA-001 a CA-004
 | TASK-040 | Garantir que não existam divergências entre rankings e gráficos | CA-004 |
 
 
-### SPEC-010 — API Pública (Tasks: TASK-041 a TASK-045)
-Critérios de Aceitação: CA-001 a CA-005
+### SPEC-010 — API Pública (Tasks: TASK-041 a TASK-045) ✅
+Critérios de Aceitação: CA-001 a CA-005 ✅
 
-| Task ID | Descrição | Critério |
-|---------|-----------|----------|
-| TASK-041 | Implementar todos os endpoints (politicians, rankings, expenses, states, parties) | CA-001 |
-| TASK-042 | Manter documentação Swagger atualizada | CA-002 |
-| TASK-043 | Implementar paginação em todos os endpoints | CA-003 |
-| TASK-044 | Implementar filtros em todos os endpoints | CA-004 |
-| TASK-045 | Implementar rate limiting | CA-005 |
+| Task ID | Descrição | Critério | Status |
+|---------|-----------|----------|--------|
+| TASK-041 | Implementar todos os endpoints (politicians, rankings, expenses, states, parties) | CA-001 | ✅ |
+| TASK-042 | Manter documentação Swagger atualizada | CA-002 | ✅ |
+| TASK-043 | Implementar paginação em todos os endpoints | CA-003 | ✅ |
+| TASK-044 | Implementar filtros em todos os endpoints | CA-004 | ✅ |
 
-### SPEC-011 — Observabilidade (Tasks: TASK-046 a TASK-049)
-Critérios de Aceitação: CA-001 a CA-004
+### SPEC-011 — Observabilidade (Tasks: TASK-046 a TASK-049) ✅
+Critérios de Aceitação: CA-001 a CA-004 ✅
 
-| Task ID | Descrição | Critério |
-|---------|-----------|----------|
-| TASK-046 | Implementar persistência de logs | CA-001 |
-| TASK-047 | Garantir rastreabilidade de falhas | CA-002 |
-| TASK-048 | Disponibilizar métricas para consulta | CA-003 |
-| TASK-049 | Implementar endpoint /health com status do sistema | CA-004 |
+| Task ID | Descrição | Critério | Status |
+|---------|-----------|----------|--------|
+| TASK-046 | Implementar persistência de logs | CA-001 | ✅ |
+| TASK-047 | Garantir rastreabilidade de falhas | CA-002 | ✅ |
+| TASK-048 | Disponibilizar métricas para consulta | CA-003 | ✅ |
+| TASK-049 | Implementar endpoint /health com status do sistema | CA-004 | ✅ |
 
-### SPEC-012 — Segurança e Performance (Tasks: TASK-050 a TASK-054)
-Critérios de Aceitação: CA-001 a CA-005
+### SPEC-012 — Segurança e Performance (Tasks: TASK-050 a TASK-054) ✅
+Critérios de Aceitação: CA-001 a CA-005 ✅
 
-| Task ID | Descrição | Critério |
-|---------|-----------|----------|
-| TASK-050 | Implementar validação de entrada em todos os endpoints | CA-001 |
-| TASK-051 | Implementar rate limiting funcional | CA-002 |
-| TASK-052 | Implementar paginação em todas as consultas | CA-003 |
-| TASK-053 | Criar índices para consultas críticas | CA-004 |
-| TASK-054 | Garantir tempo de resposta dentro dos limites (API < 500ms, página inicial < 2s, busca < 500ms) | CA-005 |
+| Task ID | Descrição | Critério | Status |
+|---------|-----------|----------|--------|
+| TASK-050 | Implementar validação de entrada em todos os endpoints | CA-001 | ✅ |
+| TASK-051 | Implementar rate limiting funcional | CA-002 | ✅ |
+| TASK-052 | Implementar paginação em todas as consultas | CA-003 | ✅ |
+| TASK-053 | Criar índices para consultas críticas | CA-004 | ✅ |
+| TASK-054 | Garantir tempo de resposta dentro dos limites (API < 500ms, página inicial < 2s, busca < 500ms) | CA-005 | ✅ |
 
 ---
 
