@@ -62,9 +62,7 @@ describe('SearchController', () => {
         },
       ];
 
-      prisma.politician.findMany.mockResolvedValue(
-        mockPoliticians as any,
-      );
+      prisma.politician.findMany.mockResolvedValue(mockPoliticians as any);
 
       const result = await controller.search('Silva');
 

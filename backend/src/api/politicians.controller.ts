@@ -1,4 +1,10 @@
-import { Controller, Get, Param, Query, NotFoundException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Query,
+  NotFoundException,
+} from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiQuery, ApiParam } from '@nestjs/swagger';
 import { PrismaService } from '../prisma/prisma.service';
 
@@ -55,8 +61,7 @@ export class PoliticiansController {
       }))
       .sort((a, b) => b.total - a.total);
 
-    const nationalRanking =
-      ranked.findIndex((r) => r.id === politician.id) + 1;
+    const nationalRanking = ranked.findIndex((r) => r.id === politician.id) + 1;
 
     const stateRanked = allPoliticians
       .filter((p) => p.stateId === politician.stateId)
@@ -179,10 +184,16 @@ export class PoliticiansController {
     return {
       monthly: Object.entries(monthly)
         .sort(([a], [b]) => a.localeCompare(b))
-        .map(([period, total]) => ({ period, total: Math.round(total * 100) / 100 })),
+        .map(([period, total]) => ({
+          period,
+          total: Math.round(total * 100) / 100,
+        })),
       yearly: Object.entries(yearly)
         .sort(([a], [b]) => a.localeCompare(b))
-        .map(([period, total]) => ({ period, total: Math.round(total * 100) / 100 })),
+        .map(([period, total]) => ({
+          period,
+          total: Math.round(total * 100) / 100,
+        })),
     };
   }
 }

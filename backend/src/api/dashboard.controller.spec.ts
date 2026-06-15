@@ -4,7 +4,9 @@ import { PrismaService } from '../prisma/prisma.service';
 
 describe('DashboardController', () => {
   let controller: DashboardController;
-  let prisma: jest.Mocked<Pick<PrismaService, 'politician' | 'expense' | 'expenseCategory'>>;
+  let prisma: jest.Mocked<
+    Pick<PrismaService, 'politician' | 'expense' | 'expenseCategory'>
+  >;
 
   beforeEach(async () => {
     const mockPrisma = {

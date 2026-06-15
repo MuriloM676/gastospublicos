@@ -28,17 +28,32 @@ describe('CamaraService', () => {
       const page1 = {
         data: {
           dados: [
-            { id: 1, nome: 'Dep 1', siglaPartido: 'PT', siglaUf: 'SP', urlFoto: 'foto1' },
+            {
+              id: 1,
+              nome: 'Dep 1',
+              siglaPartido: 'PT',
+              siglaUf: 'SP',
+              urlFoto: 'foto1',
+            },
           ],
           links: [
-            { rel: 'last', href: 'https://dadosabertos.camara.leg.br/api/v2/deputados?pagina=2' },
+            {
+              rel: 'last',
+              href: 'https://dadosabertos.camara.leg.br/api/v2/deputados?pagina=2',
+            },
           ],
         },
       };
       const page2 = {
         data: {
           dados: [
-            { id: 2, nome: 'Dep 2', siglaPartido: 'PSDB', siglaUf: 'RJ', urlFoto: 'foto2' },
+            {
+              id: 2,
+              nome: 'Dep 2',
+              siglaPartido: 'PSDB',
+              siglaUf: 'RJ',
+              urlFoto: 'foto2',
+            },
           ],
           links: [],
         },
@@ -59,7 +74,15 @@ describe('CamaraService', () => {
     it('should fetch single page if only one page exists', async () => {
       const page1 = {
         data: {
-          dados: [{ id: 1, nome: 'Dep 1', siglaPartido: 'PT', siglaUf: 'SP', urlFoto: 'foto1' }],
+          dados: [
+            {
+              id: 1,
+              nome: 'Dep 1',
+              siglaPartido: 'PT',
+              siglaUf: 'SP',
+              urlFoto: 'foto1',
+            },
+          ],
           links: [],
         },
       };
@@ -80,7 +103,11 @@ describe('CamaraService', () => {
           dados: {
             id: 1,
             nomeCivil: 'João Silva',
-            ultimoStatus: { nome: 'João Silva', siglaPartido: 'PT', siglaUf: 'SP' },
+            ultimoStatus: {
+              nome: 'João Silva',
+              siglaPartido: 'PT',
+              siglaUf: 'SP',
+            },
           },
         },
       };
@@ -103,9 +130,13 @@ describe('CamaraService', () => {
         data: {
           dados: [
             {
-              ano: 2024, mes: 1, tipoDespesa: 'Combustível',
-              valorDocumento: 500, nomeFornecedor: 'Posto ABC',
-              dataDocumento: '2024-01-15', numDocumento: '123',
+              ano: 2024,
+              mes: 1,
+              tipoDespesa: 'Combustível',
+              valorDocumento: 500,
+              nomeFornecedor: 'Posto ABC',
+              dataDocumento: '2024-01-15',
+              numDocumento: '123',
               urlDocumento: 'url',
             },
           ],
@@ -125,7 +156,9 @@ describe('CamaraService', () => {
     });
 
     it('should fetch despesas with year and month parameters', async () => {
-      httpService.get.mockReturnValueOnce(of({ data: { dados: [], links: [] } }) as any);
+      httpService.get.mockReturnValueOnce(
+        of({ data: { dados: [], links: [] } }) as any,
+      );
 
       await service.getDespesas(1, 2024, 3);
 
@@ -163,9 +196,7 @@ describe('CamaraService', () => {
     it('should fetch and return legislaturas', async () => {
       const mockResponse = {
         data: {
-          dados: [
-            { id: 56, dataInicio: '2019-01-01', dataFim: '2023-01-31' },
-          ],
+          dados: [{ id: 56, dataInicio: '2019-01-01', dataFim: '2023-01-31' }],
           links: [],
         },
       };
@@ -202,9 +233,7 @@ describe('CamaraService', () => {
     it('should fetch tipos de despesa when response has dados wrapper', async () => {
       const mockResponse = {
         data: {
-          dados: [
-            { codTipoDespesa: 3, tipoDespesa: 'Alimentação' },
-          ],
+          dados: [{ codTipoDespesa: 3, tipoDespesa: 'Alimentação' }],
         },
       };
 

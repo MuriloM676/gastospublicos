@@ -5,15 +5,31 @@ import { CamaraService } from '../camara/camara.service';
 
 describe('ImportService', () => {
   let service: ImportService;
-  let prisma: jest.Mocked<Pick<PrismaService, 'party' | 'politician' | 'state' | 'expenseCategory' | 'expense'>>;
-  let camara: jest.Mocked<Pick<CamaraService, 'getPartidos' | 'getActiveDeputados' | 'getDespesas'>>;
+  let prisma: jest.Mocked<
+    Pick<
+      PrismaService,
+      'party' | 'politician' | 'state' | 'expenseCategory' | 'expense'
+    >
+  >;
+  let camara: jest.Mocked<
+    Pick<CamaraService, 'getPartidos' | 'getActiveDeputados' | 'getDespesas'>
+  >;
 
   beforeEach(async () => {
     const mockPrisma = {
       party: { upsert: jest.fn(), findUnique: jest.fn(), findMany: jest.fn() },
-      politician: { upsert: jest.fn(), findMany: jest.fn(), findUnique: jest.fn(), count: jest.fn() },
+      politician: {
+        upsert: jest.fn(),
+        findMany: jest.fn(),
+        findUnique: jest.fn(),
+        count: jest.fn(),
+      },
       state: { findUnique: jest.fn(), findMany: jest.fn() },
-      expenseCategory: { upsert: jest.fn(), findUnique: jest.fn(), findMany: jest.fn() },
+      expenseCategory: {
+        upsert: jest.fn(),
+        findUnique: jest.fn(),
+        findMany: jest.fn(),
+      },
       expense: { upsert: jest.fn(), findMany: jest.fn(), count: jest.fn() },
     };
 
@@ -81,14 +97,36 @@ describe('ImportService', () => {
 
   describe('importDeputados', () => {
     const mockDeputados = [
-      { id: 123, nome: 'João Silva', siglaPartido: 'PT', siglaUf: 'SP', urlFoto: 'https://foto.com/joao.jpg', idLegislatura: 56 },
-      { id: 456, nome: 'Maria Souza', siglaPartido: 'PSDB', siglaUf: 'RJ', urlFoto: 'https://foto.com/maria.jpg', idLegislatura: 56 },
+      {
+        id: 123,
+        nome: 'João Silva',
+        siglaPartido: 'PT',
+        siglaUf: 'SP',
+        urlFoto: 'https://foto.com/joao.jpg',
+        idLegislatura: 56,
+      },
+      {
+        id: 456,
+        nome: 'Maria Souza',
+        siglaPartido: 'PSDB',
+        siglaUf: 'RJ',
+        urlFoto: 'https://foto.com/maria.jpg',
+        idLegislatura: 56,
+      },
     ];
 
     it('should import deputados from Camara API', async () => {
       camara.getActiveDeputados.mockResolvedValue(mockDeputados);
-      prisma.state.findUnique.mockResolvedValue({ id: 1, code: 'SP', name: 'São Paulo' } as any);
-      prisma.party.findUnique.mockResolvedValue({ id: 10, acronym: 'PT', name: 'PT' } as any);
+      prisma.state.findUnique.mockResolvedValue({
+        id: 1,
+        code: 'SP',
+        name: 'São Paulo',
+      } as any);
+      prisma.party.findUnique.mockResolvedValue({
+        id: 10,
+        acronym: 'PT',
+        name: 'PT',
+      } as any);
       prisma.politician.upsert.mockResolvedValue({ id: 1 } as any);
 
       const result = await service.importDeputados();
@@ -97,8 +135,21 @@ describe('ImportService', () => {
       expect(prisma.politician.upsert).toHaveBeenCalledTimes(2);
       expect(prisma.politician.upsert).toHaveBeenCalledWith({
         where: { externalId: 123 },
-        update: { name: 'João Silva', photoUrl: 'https://foto.com/joao.jpg', stateId: 1, partyId: 10, currentRole: 'Deputado Federal' },
-        create: { externalId: 123, name: 'João Silva', photoUrl: 'https://foto.com/joao.jpg', stateId: 1, partyId: 10, currentRole: 'Deputado Federal' },
+        update: {
+          name: 'João Silva',
+          photoUrl: 'https://foto.com/joao.jpg',
+          stateId: 1,
+          partyId: 10,
+          currentRole: 'Deputado Federal',
+        },
+        create: {
+          externalId: 123,
+          name: 'João Silva',
+          photoUrl: 'https://foto.com/joao.jpg',
+          stateId: 1,
+          partyId: 10,
+          currentRole: 'Deputado Federal',
+        },
       });
     });
 
@@ -121,7 +172,9 @@ describe('ImportService', () => {
       await service.importDeputados();
 
       expect(prisma.politician.upsert).toHaveBeenCalledWith(
-        expect.objectContaining({ create: expect.objectContaining({ partyId: 1 }) }),
+        expect.objectContaining({
+          create: expect.objectContaining({ partyId: 1 }),
+        }),
       );
     });
   });
@@ -132,17 +185,26 @@ describe('ImportService', () => {
       { id: 2, externalId: 456, name: 'Maria Souza' },
     ];
 
-    const mockDespesas = [{
-      ano: 2024, mes: 1, tipoDespesa: 'Combustível',
-      valorDocumento: 500, nomeFornecedor: 'Posto ABC',
-      dataDocumento: '2024-01-15', numDocumento: 'DOC001',
-      urlDocumento: 'https://doc.com/1',
-    }];
+    const mockDespesas = [
+      {
+        ano: 2024,
+        mes: 1,
+        tipoDespesa: 'Combustível',
+        valorDocumento: 500,
+        nomeFornecedor: 'Posto ABC',
+        dataDocumento: '2024-01-15',
+        numDocumento: 'DOC001',
+        urlDocumento: 'https://doc.com/1',
+      },
+    ];
 
     it('should import despesas for politicians without expenses', async () => {
       prisma.politician.findMany.mockResolvedValue(mockPoliticians as any);
       camara.getDespesas.mockResolvedValue(mockDespesas);
-      prisma.expenseCategory.upsert.mockResolvedValue({ id: 1, name: 'Combustível' } as any);
+      prisma.expenseCategory.upsert.mockResolvedValue({
+        id: 1,
+        name: 'Combustível',
+      } as any);
       prisma.expense.upsert.mockResolvedValue({ id: 1 } as any);
 
       const result = await service.importDespesas(2024);
@@ -153,7 +215,9 @@ describe('ImportService', () => {
     });
 
     it('should import despesas with month parameter', async () => {
-      prisma.politician.findMany.mockResolvedValue([{ id: 1, externalId: 123, name: 'João' }] as any);
+      prisma.politician.findMany.mockResolvedValue([
+        { id: 1, externalId: 123, name: 'João' },
+      ] as any);
       camara.getDespesas.mockResolvedValue(mockDespesas);
       prisma.expenseCategory.upsert.mockResolvedValue({ id: 1 } as any);
       prisma.expense.upsert.mockResolvedValue({ id: 1 } as any);
@@ -162,7 +226,16 @@ describe('ImportService', () => {
 
       expect(prisma.politician.findMany).toHaveBeenCalledWith(
         expect.objectContaining({
-          where: { expenses: { none: { expenseDate: { gte: new Date(2024, 0, 1), lt: new Date(2024, 1, 1) } } } },
+          where: {
+            expenses: {
+              none: {
+                expenseDate: {
+                  gte: new Date(2024, 0, 1),
+                  lt: new Date(2024, 1, 1),
+                },
+              },
+            },
+          },
         }),
       );
     });
@@ -207,4 +280,3 @@ describe('ImportService', () => {
     });
   });
 });
-

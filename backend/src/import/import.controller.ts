@@ -29,10 +29,7 @@ export class ImportController {
   @ApiOperation({ summary: 'Importa despesas dos deputados' })
   @ApiQuery({ name: 'ano', required: false, type: Number })
   @ApiQuery({ name: 'mes', required: false, type: Number })
-  async importDespesas(
-    @Query('ano') ano?: string,
-    @Query('mes') mes?: string,
-  ) {
+  async importDespesas(@Query('ano') ano?: string, @Query('mes') mes?: string) {
     const a = ano ? parseInt(ano, 10) : new Date().getFullYear();
     const m = mes ? parseInt(mes, 10) : undefined;
     const count = await this.importService.importDespesas(a, m);

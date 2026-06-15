@@ -4,11 +4,17 @@ import { PrismaService } from '../prisma/prisma.service';
 
 describe('RankingsController', () => {
   let controller: RankingsController;
-  let prisma: jest.Mocked<Pick<PrismaService, 'politician' | 'state' | 'party'>>;
+  let prisma: jest.Mocked<
+    Pick<PrismaService, 'politician' | 'state' | 'party'>
+  >;
 
   beforeEach(async () => {
     const mockPrisma = {
-      politician: { findMany: jest.fn(), findUnique: jest.fn(), count: jest.fn() },
+      politician: {
+        findMany: jest.fn(),
+        findUnique: jest.fn(),
+        count: jest.fn(),
+      },
       state: { findUnique: jest.fn(), findMany: jest.fn() },
       party: { findUnique: jest.fn(), findMany: jest.fn() },
     };
@@ -25,18 +31,27 @@ describe('RankingsController', () => {
   describe('getNationalRanking', () => {
     const mockPoliticians = [
       {
-        id: 1, name: 'João Silva', currentRole: 'Deputado Federal',
-        state: { code: 'SP' }, party: { acronym: 'PT' },
+        id: 1,
+        name: 'João Silva',
+        currentRole: 'Deputado Federal',
+        state: { code: 'SP' },
+        party: { acronym: 'PT' },
         expenses: [{ amount: 5000 }, { amount: 3000 }],
       },
       {
-        id: 2, name: 'Maria Souza', currentRole: 'Deputado Federal',
-        state: { code: 'RJ' }, party: { acronym: 'PSDB' },
+        id: 2,
+        name: 'Maria Souza',
+        currentRole: 'Deputado Federal',
+        state: { code: 'RJ' },
+        party: { acronym: 'PSDB' },
         expenses: [{ amount: 10000 }],
       },
       {
-        id: 3, name: 'Carlos Pereira', currentRole: 'Deputado Federal',
-        state: { code: 'SP' }, party: { acronym: 'PT' },
+        id: 3,
+        name: 'Carlos Pereira',
+        currentRole: 'Deputado Federal',
+        state: { code: 'SP' },
+        party: { acronym: 'PT' },
         expenses: [{ amount: 2000 }],
       },
     ];
@@ -61,23 +76,45 @@ describe('RankingsController', () => {
     });
 
     it('should apply state filter', async () => {
-      prisma.state.findUnique.mockResolvedValue({ id: 1, code: 'SP', name: 'São Paulo' } as any);
-      prisma.politician.findMany.mockResolvedValue([mockPoliticians[0], mockPoliticians[2]] as any);
+      prisma.state.findUnique.mockResolvedValue({
+        id: 1,
+        code: 'SP',
+        name: 'São Paulo',
+      } as any);
+      prisma.politician.findMany.mockResolvedValue([
+        mockPoliticians[0],
+        mockPoliticians[2],
+      ] as any);
 
       const result = await controller.getNationalRanking(undefined, 'SP');
 
-      expect(prisma.state.findUnique).toHaveBeenCalledWith({ where: { code: 'SP' } });
+      expect(prisma.state.findUnique).toHaveBeenCalledWith({
+        where: { code: 'SP' },
+      });
       expect(result.items).toHaveLength(2);
       expect(result.items.every((i: any) => i.state === 'SP')).toBe(true);
     });
 
     it('should apply party filter', async () => {
-      prisma.party.findUnique.mockResolvedValue({ id: 1, acronym: 'PT', name: 'Partido' } as any);
-      prisma.politician.findMany.mockResolvedValue([mockPoliticians[0], mockPoliticians[2]] as any);
+      prisma.party.findUnique.mockResolvedValue({
+        id: 1,
+        acronym: 'PT',
+        name: 'Partido',
+      } as any);
+      prisma.politician.findMany.mockResolvedValue([
+        mockPoliticians[0],
+        mockPoliticians[2],
+      ] as any);
 
-      const result = await controller.getNationalRanking(undefined, undefined, 'PT');
+      const result = await controller.getNationalRanking(
+        undefined,
+        undefined,
+        'PT',
+      );
 
-      expect(prisma.party.findUnique).toHaveBeenCalledWith({ where: { acronym: 'PT' } });
+      expect(prisma.party.findUnique).toHaveBeenCalledWith({
+        where: { acronym: 'PT' },
+      });
       expect(result.items).toHaveLength(2);
       expect(result.items.every((i: any) => i.party === 'PT')).toBe(true);
     });
@@ -89,17 +126,30 @@ describe('RankingsController', () => {
       expect(prisma.politician.findMany).toHaveBeenCalledWith(
         expect.objectContaining({
           where: {
-            expenses: { some: { expenseDate: { gte: new Date('2024-01-01'), lte: new Date('2024-12-31') } } },
+            expenses: {
+              some: {
+                expenseDate: {
+                  gte: new Date('2024-01-01'),
+                  lte: new Date('2024-12-31'),
+                },
+              },
+            },
           },
         }),
       );
     });
 
-
     it('should apply pagination with slice', async () => {
       prisma.politician.findMany.mockResolvedValue(mockPoliticians as any);
 
-      const result = await controller.getNationalRanking(undefined, undefined, undefined, undefined, '1', '2');
+      const result = await controller.getNationalRanking(
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        '1',
+        '2',
+      );
 
       expect(result.items).toHaveLength(2);
       expect(result.page).toBe(1);
@@ -112,7 +162,9 @@ describe('RankingsController', () => {
 
       const result = await controller.getNationalRanking(undefined, 'XX');
 
-      expect(prisma.politician.findMany).toHaveBeenCalledWith(expect.objectContaining({ where: {} }));
+      expect(prisma.politician.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({ where: {} }),
+      );
       expect(result.total).toBe(3);
     });
 
@@ -120,19 +172,53 @@ describe('RankingsController', () => {
       prisma.party.findUnique.mockResolvedValue(null);
       prisma.politician.findMany.mockResolvedValue(mockPoliticians as any);
 
-      const result = await controller.getNationalRanking(undefined, undefined, 'XX');
+      const result = await controller.getNationalRanking(
+        undefined,
+        undefined,
+        'XX',
+      );
 
-      expect(prisma.politician.findMany).toHaveBeenCalledWith(expect.objectContaining({ where: {} }));
+      expect(prisma.politician.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({ where: {} }),
+      );
       expect(result.total).toBe(3);
     });
   });
 
   describe('getTop3', () => {
     const mockPoliticians = [
-      { id: 1, name: 'João Silva', currentRole: 'Deputado Federal', state: { code: 'SP' }, party: { acronym: 'PT' }, expenses: [{ amount: 5000 }] },
-      { id: 2, name: 'Maria Souza', currentRole: 'Deputado Federal', state: { code: 'RJ' }, party: { acronym: 'PSDB' }, expenses: [{ amount: 10000 }] },
-      { id: 3, name: 'Carlos Pereira', currentRole: 'Deputado Federal', state: { code: 'MG' }, party: { acronym: 'PV' }, expenses: [{ amount: 3000 }] },
-      { id: 4, name: 'Ana Costa', currentRole: 'Deputado Federal', state: { code: 'BA' }, party: { acronym: 'MDB' }, expenses: [{ amount: 7000 }] },
+      {
+        id: 1,
+        name: 'João Silva',
+        currentRole: 'Deputado Federal',
+        state: { code: 'SP' },
+        party: { acronym: 'PT' },
+        expenses: [{ amount: 5000 }],
+      },
+      {
+        id: 2,
+        name: 'Maria Souza',
+        currentRole: 'Deputado Federal',
+        state: { code: 'RJ' },
+        party: { acronym: 'PSDB' },
+        expenses: [{ amount: 10000 }],
+      },
+      {
+        id: 3,
+        name: 'Carlos Pereira',
+        currentRole: 'Deputado Federal',
+        state: { code: 'MG' },
+        party: { acronym: 'PV' },
+        expenses: [{ amount: 3000 }],
+      },
+      {
+        id: 4,
+        name: 'Ana Costa',
+        currentRole: 'Deputado Federal',
+        state: { code: 'BA' },
+        party: { acronym: 'MDB' },
+        expenses: [{ amount: 7000 }],
+      },
     ];
 
     it('should return top 3 biggest spenders', async () => {
@@ -149,7 +235,10 @@ describe('RankingsController', () => {
     });
 
     it('should return null for missing positions when less than 3 politicians', async () => {
-      prisma.politician.findMany.mockResolvedValue([mockPoliticians[0], mockPoliticians[1]] as any);
+      prisma.politician.findMany.mockResolvedValue([
+        mockPoliticians[0],
+        mockPoliticians[1],
+      ] as any);
 
       const result = await controller.getTop3();
 

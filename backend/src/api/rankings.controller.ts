@@ -32,7 +32,9 @@ export class RankingsController {
       if (s) where.stateId = s.id;
     }
     if (party) {
-      const pa = await this.prisma.party.findUnique({ where: { acronym: party } });
+      const pa = await this.prisma.party.findUnique({
+        where: { acronym: party },
+      });
       if (pa) where.partyId = pa.id;
     }
     if (year) {
@@ -75,7 +77,10 @@ export class RankingsController {
         position: pol.currentRole,
         totalExpenses: pol.expenses.reduce((sum, e) => sum + e.amount, 0),
       }))
-      .sort((a, b) => b.totalExpenses - a.totalExpenses || a.name.localeCompare(b.name))
+      .sort(
+        (a, b) =>
+          b.totalExpenses - a.totalExpenses || a.name.localeCompare(b.name),
+      )
       .map((item, index) => ({ ...item, ranking: index + 1 }));
 
     const start = (p - 1) * l;
@@ -105,7 +110,10 @@ export class RankingsController {
         position: pol.currentRole,
         totalExpenses: pol.expenses.reduce((sum, e) => sum + e.amount, 0),
       }))
-      .sort((a, b) => b.totalExpenses - a.totalExpenses || a.name.localeCompare(b.name));
+      .sort(
+        (a, b) =>
+          b.totalExpenses - a.totalExpenses || a.name.localeCompare(b.name),
+      );
 
     return {
       first: ranked[0] || null,

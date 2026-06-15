@@ -29,12 +29,10 @@ describe('LoggingInterceptor', () => {
 
     mockCallHandler = {
       handle: jest.fn(),
-    } as unknown as jest.Mocked<CallHandler>;
+    };
 
     loggerSpy = jest.spyOn(Logger.prototype, 'log').mockImplementation();
-    loggerErrorSpy = jest
-      .spyOn(Logger.prototype, 'error')
-      .mockImplementation();
+    loggerErrorSpy = jest.spyOn(Logger.prototype, 'error').mockImplementation();
   });
 
   afterEach(() => {

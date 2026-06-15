@@ -7,6 +7,9 @@ describe('PrismaService (e2e) — SPEC-003 Modelo de Dados', () => {
   let app: INestApplication;
   let prisma: PrismaService;
 
+  let testStateId: number;
+  let testPartyId: number;
+
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
@@ -15,9 +18,30 @@ describe('PrismaService (e2e) — SPEC-003 Modelo de Dados', () => {
     app = moduleFixture.createNestApplication();
     await app.init();
     prisma = app.get(PrismaService);
+
+    // Seed state and party for foreign key tests
+    const state = await prisma.state.upsert({
+      where: { code: 'ZZ' },
+      update: {},
+      create: { code: 'ZZ', name: 'Test State' },
+    });
+    testStateId = state.id;
+
+    const party = await prisma.party.upsert({
+      where: { acronym: 'TST' },
+      update: {},
+      create: { acronym: 'TST', name: 'Test Party' },
+    });
+    testPartyId = party.id;
   });
 
   afterAll(async () => {
+    // Clean up test data
+    await prisma.politician.deleteMany({
+      where: { externalId: 99999 },
+    });
+    await prisma.party.deleteMany({ where: { acronym: 'TST' } });
+    await prisma.state.deleteMany({ where: { code: 'ZZ' } });
     await app.close();
   });
 
@@ -27,8 +51,8 @@ describe('PrismaService (e2e) — SPEC-003 Modelo de Dados', () => {
         data: {
           externalId: 99999,
           name: 'Teste E2E',
-          stateId: 1,
-          partyId: 1,
+          stateId: testStateId,
+          partyId: testPartyId,
           currentRole: 'Deputado Federal',
         },
         include: { state: true, party: true },
@@ -36,8 +60,8 @@ describe('PrismaService (e2e) — SPEC-003 Modelo de Dados', () => {
 
       expect(politician.state).toBeDefined();
       expect(politician.party).toBeDefined();
-      expect(politician.state.code).toBe('AC');
-      expect(politician.party.acronym).toBe('PL');
+      expect(politician.state.code).toBe('ZZ');
+      expect(politician.party.acronym).toBe('TST');
 
       await prisma.politician.delete({ where: { id: politician.id } });
     });

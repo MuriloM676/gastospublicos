@@ -177,9 +177,7 @@ export class ImportService {
       }
     }
 
-    this.logger.log(
-      `Importadas ${total} despesas de ${completed} deputados`,
-    );
+    this.logger.log(`Importadas ${total} despesas de ${completed} deputados`);
     return total;
   }
 

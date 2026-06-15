@@ -17,14 +17,23 @@ export class DashboardController {
 
     const totalExpenses = expenses.reduce((s, e) => s + e.amount, 0);
 
-    const byPolitician: Record<number, { id: number; name: string; total: number }> = {};
+    const byPolitician: Record<
+      number,
+      { id: number; name: string; total: number }
+    > = {};
     for (const e of expenses) {
       if (!byPolitician[e.politicianId]) {
-        byPolitician[e.politicianId] = { id: e.politicianId, name: e.politician.name, total: 0 };
+        byPolitician[e.politicianId] = {
+          id: e.politicianId,
+          name: e.politician.name,
+          total: 0,
+        };
       }
       byPolitician[e.politicianId].total += e.amount;
     }
-    const ranked = Object.values(byPolitician).sort((a, b) => b.total - a.total);
+    const ranked = Object.values(byPolitician).sort(
+      (a, b) => b.total - a.total,
+    );
     const topSpender = ranked[0] || null;
 
     const byParty: Record<number, { acronym: string; total: number }> = {};
@@ -35,14 +44,27 @@ export class DashboardController {
       }
       byParty[pid].total += e.amount;
     }
-    const partyRanked = Object.values(byParty).sort((a, b) => b.total - a.total);
+    const partyRanked = Object.values(byParty).sort(
+      (a, b) => b.total - a.total,
+    );
     const topParty = partyRanked[0] || null;
 
     return {
       totalExpenses: Math.round(totalExpenses * 100) / 100,
       totalPoliticians,
-      topSpender: topSpender ? { id: topSpender.id, name: topSpender.name, total: Math.round(topSpender.total * 100) / 100 } : null,
-      topParty: topParty ? { acronym: topParty.acronym, total: Math.round(topParty.total * 100) / 100 } : null,
+      topSpender: topSpender
+        ? {
+            id: topSpender.id,
+            name: topSpender.name,
+            total: Math.round(topSpender.total * 100) / 100,
+          }
+        : null,
+      topParty: topParty
+        ? {
+            acronym: topParty.acronym,
+            total: Math.round(topParty.total * 100) / 100,
+          }
+        : null,
     };
   }
 
@@ -98,7 +120,8 @@ export class DashboardController {
     return categories
       .map((c) => ({
         category: c.name,
-        totalExpenses: Math.round(c.expenses.reduce((s, e) => s + e.amount, 0) * 100) / 100,
+        totalExpenses:
+          Math.round(c.expenses.reduce((s, e) => s + e.amount, 0) * 100) / 100,
       }))
       .sort((a, b) => b.totalExpenses - a.totalExpenses);
   }

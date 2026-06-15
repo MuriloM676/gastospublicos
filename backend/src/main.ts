@@ -21,7 +21,9 @@ async function bootstrap() {
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Gastos Públicos API')
-    .setDescription('API de consulta a gastos públicos de políticos brasileiros')
+    .setDescription(
+      'API de consulta a gastos públicos de políticos brasileiros',
+    )
     .setVersion('1.0')
     .build();
 

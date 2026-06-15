@@ -4,7 +4,9 @@ import { ImportService } from './import.service';
 
 describe('ImportController', () => {
   let controller: ImportController;
-  let importService: jest.Mocked<Pick<ImportService, 'syncAll' | 'importDeputados' | 'importDespesas'>>;
+  let importService: jest.Mocked<
+    Pick<ImportService, 'syncAll' | 'importDeputados' | 'importDespesas'>
+  >;
 
   beforeEach(async () => {
     const mockImportService = {
@@ -79,7 +81,10 @@ describe('ImportController', () => {
       const result = await controller.importDespesas();
 
       expect(result).toEqual({ success: true, despesas: 5000 });
-      expect(importService.importDespesas).toHaveBeenCalledWith(currentYear, undefined);
+      expect(importService.importDespesas).toHaveBeenCalledWith(
+        currentYear,
+        undefined,
+      );
     });
 
     it('should call importDespesas with provided year', async () => {
@@ -88,7 +93,10 @@ describe('ImportController', () => {
       const result = await controller.importDespesas('2024');
 
       expect(result).toEqual({ success: true, despesas: 3000 });
-      expect(importService.importDespesas).toHaveBeenCalledWith(2024, undefined);
+      expect(importService.importDespesas).toHaveBeenCalledWith(
+        2024,
+        undefined,
+      );
     });
 
     it('should call importDespesas with year and month', async () => {
