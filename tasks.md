@@ -93,68 +93,67 @@ Critérios de Aceitação: CA-001 a CA-004 ✅
 | TASK-013 | Implementar constraint que impede categorias inexistentes | CA-003 | ✅ |
 | TASK-014 | Garantir que consultas históricas retornem todos os registros | CA-004 | ✅ |
 
-### SPEC-004 — Ranking Nacional (Tasks: TASK-015 a TASK-019)
-Critérios de Aceitação: CA-001 a CA-005
+### SPEC-004 — Ranking Nacional (Tasks: TASK-015 a TASK-019) ✅
+Critérios de Aceitação: CA-001 a CA-005 ✅
 
-| Task ID | Descrição | Critério |
-|---------|-----------|----------|
-| TASK-015 | Exibir os 3 maiores gastadores em destaque na página inicial | CA-001 |
-| TASK-016 | Exibir ranking completo paginado na página inicial | CA-002 |
-| TASK-017 | Garantir que o valor corresponda à soma das despesas registradas | CA-003 |
-| TASK-018 | Implementar filtros (ano, estado, partido, cargo) que atualizam o ranking | CA-004 |
-| TASK-019 | Garantir ordenação correta após aplicação dos filtros | CA-005 |
+| Task ID | Descrição | Critério | Status |
+|---------|-----------|----------|--------|
+| TASK-015 | Exibir os 3 maiores gastadores em destaque na página inicial | CA-001 | ✅ |
+| TASK-016 | Exibir ranking completo paginado na página inicial | CA-002 | ✅ |
+| TASK-017 | Garantir que o valor corresponda à soma das despesas registradas | CA-003 | ✅ |
+| TASK-018 | Implementar filtros (ano, estado, partido, cargo) que atualizam o ranking | CA-004 | ✅ |
+| TASK-019 | Garantir ordenação correta após aplicação dos filtros | CA-005 | ✅ |
 
-### SPEC-005 — Perfil do Político (Tasks: TASK-020 a TASK-024)
-Critérios de Aceitação: CA-001 a CA-005
+### SPEC-005 — Perfil do Político (Tasks: TASK-020 a TASK-024) ✅
+Critérios de Aceitação: CA-001 a CA-005 ✅
 
-| Task ID | Descrição | Critério |
-|---------|-----------|----------|
-| TASK-020 | Exibir informações básicas do político (nome, foto, partido, estado, cargo, mandatos) | CA-001 |
-| TASK-021 | Exibir resumo financeiro (total gasto, média mensal, rankings) | CA-002 |
-| TASK-022 | Exibir histórico de despesas detalhado | CA-003 |
-| TASK-023 | Exibir evolução temporal dos gastos (gráfico) | CA-004 |
-| TASK-024 | Exibir distribuição por categoria (gráfico donut) | CA-005 |
+| Task ID | Descrição | Critério | Status |
+|---------|-----------|----------|--------|
+| TASK-020 | Exibir informações básicas do político (nome, foto, partido, estado, cargo, mandatos) | CA-001 | ✅ |
+| TASK-021 | Exibir resumo financeiro (total gasto, média mensal, rankings) | CA-002 | ✅ |
+| TASK-022 | Exibir histórico de despesas detalhado | CA-003 | ✅ |
+| TASK-023 | Exibir evolução temporal dos gastos (gráfico) | CA-004 | ✅ |
+| TASK-024 | Exibir distribuição por categoria (gráfico donut) | CA-005 | ✅ |
 
+### SPEC-006 — Busca e Autocomplete (Tasks: TASK-025 a TASK-028) ✅
+Critérios de Aceitação: CA-001 a CA-004 ✅
 
-### SPEC-006 — Busca e Autocomplete (Tasks: TASK-025 a TASK-028)
-Critérios de Aceitação: CA-001 a CA-004
+| Task ID | Descrição | Critério | Status |
+|---------|-----------|----------|--------|
+| TASK-025 | Implementar busca de político pelo nome (case-insensitive, sem acentos) | CA-001 | ✅ |
+| TASK-026 | Implementar busca de políticos por partido | CA-002 | ✅ |
+| TASK-027 | Implementar autocomplete com sugestões enquanto o usuário digita | CA-003 | ✅ |
+| TASK-028 | Garantir resposta da busca em menos de 500ms | CA-004 | ✅ |
 
-| Task ID | Descrição | Critério |
-|---------|-----------|----------|
-| TASK-025 | Implementar busca de político pelo nome (case-insensitive, sem acentos) | CA-001 |
-| TASK-026 | Implementar busca de políticos por partido | CA-002 |
-| TASK-027 | Implementar autocomplete com sugestões enquanto o usuário digita | CA-003 |
-| TASK-028 | Garantir resposta da busca em menos de 500ms | CA-004 |
+### SPEC-007 — Rankings por Categoria (Tasks: TASK-029 a TASK-032) ✅
+Critérios de Aceitação: CA-001 a CA-004 ✅
 
-### SPEC-007 — Rankings por Categoria (Tasks: TASK-029 a TASK-032)
-Critérios de Aceitação: CA-001 a CA-004
+| Task ID | Descrição | Critério | Status |
+|---------|-----------|----------|--------|
+| TASK-029 | Implementar ranking próprio para cada categoria de despesa | CA-001 | ✅ |
+| TASK-030 | Garantir cálculo correto dos valores por categoria | CA-002 | ✅ |
+| TASK-031 | Implementar filtros (ano, estado, partido) em todas as categorias | CA-003 | ✅ |
+| TASK-032 | Exibir na interface a categoria atualmente selecionada | CA-004 | ✅ |
 
-| Task ID | Descrição | Critério |
-|---------|-----------|----------|
-| TASK-029 | Implementar ranking próprio para cada categoria de despesa | CA-001 |
-| TASK-030 | Garantir cálculo correto dos valores por categoria | CA-002 |
-| TASK-031 | Implementar filtros (ano, estado, partido) em todas as categorias | CA-003 |
-| TASK-032 | Exibir na interface a categoria atualmente selecionada | CA-004 |
+### SPEC-008 — Mapa do Brasil (Tasks: TASK-033 a TASK-036) ✅
+Critérios de Aceitação: CA-001 a CA-004 ✅
 
-### SPEC-008 — Mapa do Brasil (Tasks: TASK-033 a TASK-036)
-Critérios de Aceitação: CA-001 a CA-004
+| Task ID | Descrição | Critério | Status |
+|---------|-----------|----------|--------|
+| TASK-033 | Renderizar mapa do Brasil com todos os estados | CA-001 | ✅ |
+| TASK-034 | Implementar clique no estado para carregar detalhes (drawer lateral) | CA-002 | ✅ |
+| TASK-035 | Garantir que indicadores reflitam dados atuais | CA-003 | ✅ |
+| TASK-036 | Garantir que filtros globais impactem o mapa | CA-004 | ✅ |
 
-| Task ID | Descrição | Critério |
-|---------|-----------|----------|
-| TASK-033 | Renderizar mapa do Brasil com todos os estados | CA-001 |
-| TASK-034 | Implementar clique no estado para carregar detalhes (drawer lateral) | CA-002 |
-| TASK-035 | Garantir que indicadores reflitam dados atuais | CA-003 |
-| TASK-036 | Garantir que filtros globais impactem o mapa | CA-004 |
+### SPEC-009 — Dashboard Analítico (Tasks: TASK-037 a TASK-040) ✅
+Critérios de Aceitação: CA-001 a CA-004 ✅
 
-### SPEC-009 — Dashboard Analítico (Tasks: TASK-037 a TASK-040)
-Critérios de Aceitação: CA-001 a CA-004
-
-| Task ID | Descrição | Critério |
-|---------|-----------|----------|
-| TASK-037 | Implementar todos os gráficos (evolução mensal, anual, categorias, partidos, estados) | CA-001 |
-| TASK-038 | Implementar filtros globais que refletem em todos os gráficos | CA-002 |
-| TASK-039 | Garantir consistência dos dados apresentados | CA-003 |
-| TASK-040 | Garantir que não existam divergências entre rankings e gráficos | CA-004 |
+| Task ID | Descrição | Critério | Status |
+|---------|-----------|----------|--------|
+| TASK-037 | Implementar todos os gráficos (evolução mensal, anual, categorias, partidos, estados) | CA-001 | ✅ |
+| TASK-038 | Implementar filtros globais que refletem em todos os gráficos | CA-002 | ✅ |
+| TASK-039 | Garantir consistência dos dados apresentados | CA-003 | ✅ |
+| TASK-040 | Garantir que não existam divergências entre rankings e gráficos | CA-004 | ✅ |
 
 
 ### SPEC-010 — API Pública (Tasks: TASK-041 a TASK-045) ✅
