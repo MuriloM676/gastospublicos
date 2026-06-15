@@ -1,4 +1,5 @@
 # SPEC-014 — Integração Contínua (CI/CD) e Validação Automatizada
+## (Versão Complementada)
 
 ## Objetivo
 
@@ -26,6 +27,10 @@ Esta especificação cobre:
 * Execução dos testes unitários.
 * Execução dos testes E2E.
 * Publicação dos resultados da execução.
+* Gerenciamento de variáveis de ambiente e secrets.
+* Cache de dependências para otimização de tempo.
+* Cobertura mínima de testes.
+* Definição de branches monitoradas.
 
 Esta especificação não cobre:
 
@@ -39,7 +44,7 @@ Esta especificação não cobre:
 
 ### CI-001 — Execução automática em Pull Requests
 
-Quando um Pull Request for aberto ou atualizado, o GitHub Actions deverá iniciar automaticamente o pipeline de validação.
+Quando um Pull Request for aberto ou atualizado para as branches `main` ou `develop`, o GitHub Actions deverá iniciar automaticamente o pipeline de validação.
 
 Critérios de aceitação:
 
@@ -51,7 +56,12 @@ Critérios de aceitação:
 
 ### CI-002 — Execução automática em Push
 
-Quando houver push para branches monitoradas, o pipeline deverá ser executado automaticamente.
+Quando houver push para as branches `main` ou `develop`, o pipeline deverá ser executado automaticamente.
+
+Branches monitoradas:
+
+* `main`
+* `develop`
 
 Critérios de aceitação:
 
@@ -62,11 +72,13 @@ Critérios de aceitação:
 
 ### CI-003 — Instalação de dependências
 
-O pipeline deverá instalar todas as dependências necessárias para execução do backend.
+O pipeline deverá instalar todas as dependências necessárias para execução do backend, utilizando cache para otimizar o tempo de execução.
 
 Critérios de aceitação:
 
-* npm ci executado com sucesso.
+* `npm ci` executado com sucesso.
+* Cache do diretório `~/.npm` habilitado via `actions/cache`.
+* Cache invalidado automaticamente quando `package-lock.json` for alterado.
 * Falhas de instalação interrompem a execução.
 
 ---
@@ -77,19 +89,22 @@ O backend deverá ser compilado antes da execução dos testes.
 
 Critérios de aceitação:
 
-* npm run build executado com sucesso.
+* `npm run build` executado com sucesso.
 * Falhas de compilação interrompem o pipeline.
+* Testes não são executados caso o build falhe.
 
 ---
 
 ### CI-005 — Execução de testes unitários
 
-Todos os testes unitários deverão ser executados.
+Todos os testes unitários deverão ser executados com verificação de cobertura mínima.
 
 Critérios de aceitação:
 
-* npm test executado.
+* `npm test` executado com flag `--coverage`.
 * Pipeline falha caso qualquer teste falhe.
+* Pipeline falha caso a cobertura global seja inferior a **80%**.
+* Relatório de cobertura disponível nos logs do workflow.
 
 ---
 
@@ -99,7 +114,7 @@ Todos os testes E2E deverão ser executados.
 
 Critérios de aceitação:
 
-* npm run test:e2e executado.
+* `npm run test:e2e` executado.
 * Pipeline falha caso qualquer cenário falhe.
 
 ---
@@ -122,9 +137,28 @@ O GitHub deverá exibir o resultado da execução.
 
 Critérios de aceitação:
 
-* Status Success ou Failure.
+* Status `Success` ou `Failure`.
 * Logs acessíveis.
 * Identificação clara do estágio que falhou.
+
+---
+
+### CI-009 — Gerenciamento de Secrets e Variáveis de Ambiente
+
+O pipeline não deverá expor dados sensíveis em logs ou no código-fonte. Todas as variáveis sensíveis deverão ser gerenciadas via GitHub Secrets.
+
+Variáveis obrigatórias a serem cadastradas no repositório:
+
+| Secret | Descrição |
+|---|---|
+| `DATABASE_URL` | String de conexão com o banco PostgreSQL de testes |
+| `JWT_SECRET` | Chave secreta para geração de tokens JWT |
+
+Critérios de aceitação:
+
+* Nenhuma variável sensível exposta no código ou nos logs.
+* Secrets injetados via `env` no workflow usando `${{ secrets.NOME_DA_SECRET }}`.
+* Pipeline falha caso uma secret obrigatória não esteja definida.
 
 ---
 
@@ -136,11 +170,19 @@ O pipeline completo deverá finalizar em menos de 10 minutos.
 
 ### RNF-002
 
-O pipeline deverá utilizar runners Linux Ubuntu.
+O pipeline deverá utilizar runners Linux Ubuntu (`ubuntu-latest`).
 
 ### RNF-003
 
 A execução deverá ser reproduzível e independente da máquina do desenvolvedor.
+
+### RNF-004
+
+O cache de dependências deverá ser utilizado para reduzir o tempo de instalação do `npm ci`.
+
+### RNF-005
+
+A cobertura mínima de código pelos testes unitários deverá ser de 80%.
 
 ---
 
@@ -154,7 +196,7 @@ Quando o pipeline for executado
 
 Então todos os testes deverão passar
 
-E o status deverá ser Success.
+E o status deverá ser `Success`.
 
 ---
 
@@ -182,16 +224,48 @@ E os testes não deverão ser executados.
 
 ---
 
+### CT-CI-004
+
+Dada uma cobertura de testes inferior a 80%
+
+Quando o pipeline for executado
+
+Então o workflow deverá falhar
+
+E exibir o relatório de cobertura nos logs.
+
+---
+
+### CT-CI-005
+
+Dado que uma secret obrigatória não está definida no repositório
+
+Quando o pipeline for executado
+
+Então o pipeline deverá falhar na etapa que depende dessa secret
+
+E exibir mensagem de erro indicando a variável ausente.
+
+---
+
+### CT-CI-006
+
+Dado que `package-lock.json` não foi alterado desde a última execução
+
+Quando o pipeline for executado
+
+Então as dependências deverão ser restauradas do cache
+
+E a etapa de instalação deverá ser mais rápida que uma instalação limpa.
+
+---
+
 ## Artefatos Esperados
 
-.github/workflows/
+`.github/workflows/`
 
-* test.yml
-* lint.yml
-
-Opcionalmente:
-
-* deploy.yml
+* `test.yml` — Pipeline de build e testes
+* `lint.yml` — Pipeline de lint e formatação (ver SPEC-014-LINT)
 
 ---
 

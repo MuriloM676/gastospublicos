@@ -1,0 +1,206 @@
+# SPEC-GIT-001 — Estratégia de Branches e Fluxo de Trabalho
+
+## Objetivo
+
+Definir o modelo de ramificação (branching strategy) adotado no projeto Gastos Públicos, garantindo organização, rastreabilidade e integração segura com o pipeline de CI/CD.
+
+---
+
+## Problema
+
+Sem uma estratégia de branches definida, desenvolvedores podem trabalhar de formas inconsistentes, causando conflitos frequentes, dificuldade de rastreabilidade de funcionalidades e risco de envio de código instável para a branch principal.
+
+---
+
+## Escopo
+
+Esta especificação cobre:
+
+* Nomenclatura e finalidade de cada branch.
+* Fluxo de criação, revisão e merge de branches.
+* Regras de proteção de branches.
+* Integração com o pipeline de CI/CD.
+
+Esta especificação não cobre:
+
+* Versionamento semântico de releases.
+* Geração de changelogs automáticos.
+* Deploy automático (ver SPEC-015).
+
+---
+
+## Modelo Adotado
+
+O projeto adota o modelo **GitHub Flow simplificado com branch de desenvolvimento**, composto por duas branches permanentes e branches temporárias de trabalho.
+
+---
+
+## Branches Permanentes
+
+### `main`
+
+* Representa o código em estado **pronto para produção**.
+* Nunca recebe commits diretos.
+* Atualizada exclusivamente via Pull Request aprovado a partir de `develop`.
+* Protegida: requer ao menos 1 aprovação e pipeline CI passando.
+
+---
+
+### `develop`
+
+* Representa o código de **integração contínua** — funcionalidades concluídas e validadas.
+* Nunca recebe commits diretos (exceto em correções críticas com aprovação do time).
+* Atualizada via Pull Request a partir de branches de feature, fix ou chore.
+* Protegida: requer ao menos 1 aprovação e pipeline CI passando.
+
+---
+
+## Branches Temporárias
+
+Criadas a partir de `develop` e removidas após o merge.
+
+| Prefixo | Finalidade | Exemplo |
+|---|---|---|
+| `feature/` | Nova funcionalidade | `feature/autenticacao-jwt` |
+| `fix/` | Correção de bug | `fix/calculo-total-incorreto` |
+| `chore/` | Tarefas de manutenção, configs, dependências | `chore/atualizar-dependencias` |
+| `hotfix/` | Correção urgente diretamente em `main` | `hotfix/falha-critica-login` |
+| `refactor/` | Refatoração sem mudança de comportamento | `refactor/reorganizar-modulo-usuario` |
+
+---
+
+## Regras de Nomenclatura
+
+* Usar apenas letras minúsculas, números e hífens.
+* Incluir o prefixo correspondente ao tipo.
+* Nome descritivo e conciso, sem espaços ou caracteres especiais.
+* Opcionalmente referenciar o ID da tarefa: `feature/SPEC-012-relatorio-gastos`.
+
+---
+
+## Fluxo de Trabalho
+
+### Desenvolvimento de uma funcionalidade
+
+```
+develop → feature/nome-da-feature → Pull Request → develop
+```
+
+1. Criar branch a partir de `develop`:
+   ```bash
+   git checkout develop
+   git pull origin develop
+   git checkout -b feature/nome-da-feature
+   ```
+
+2. Desenvolver e commitar na branch local.
+
+3. Abrir Pull Request de `feature/nome-da-feature` para `develop`.
+
+4. Pipeline de CI executado automaticamente.
+
+5. Ao menos 1 aprovação de outro desenvolvedor.
+
+6. Merge realizado via **Squash and Merge** para manter histórico limpo.
+
+7. Branch removida após o merge.
+
+---
+
+### Promoção para produção
+
+```
+develop → Pull Request → main
+```
+
+1. Abrir Pull Request de `develop` para `main`.
+2. Pipeline de CI executado.
+3. Ao menos 1 aprovação.
+4. Merge realizado via **Merge Commit** para preservar o histórico de integração.
+
+---
+
+### Correção urgente (hotfix)
+
+```
+main → hotfix/nome → Pull Request → main → cherry-pick → develop
+```
+
+1. Criar branch a partir de `main`:
+   ```bash
+   git checkout main
+   git pull origin main
+   git checkout -b hotfix/nome-do-hotfix
+   ```
+
+2. Corrigir, commitar e abrir Pull Request para `main`.
+
+3. Após o merge em `main`, aplicar a correção em `develop` via cherry-pick.
+
+---
+
+## Regras de Proteção de Branches (Branch Protection Rules)
+
+As seguintes regras deverão ser configuradas no GitHub para as branches `main` e `develop`:
+
+| Regra | Valor |
+|---|---|
+| Require pull request before merging | ✅ Habilitado |
+| Required approving reviews | 1 |
+| Dismiss stale reviews on new push | ✅ Habilitado |
+| Require status checks to pass | ✅ Habilitado |
+| Status checks obrigatórios | `test` (CI), `lint` |
+| Require branches to be up to date | ✅ Habilitado |
+| Restrict who can push directly | Apenas admins em situações excepcionais |
+| Allow force pushes | ❌ Desabilitado |
+| Allow deletions | ❌ Desabilitado |
+
+---
+
+## Integração com CI/CD
+
+O pipeline de CI/CD (SPEC-014) monitora as branches `main` e `develop`, sendo acionado automaticamente em:
+
+* Push direto para `main` ou `develop`.
+* Abertura ou atualização de Pull Request com destino a `main` ou `develop`.
+
+O status do pipeline é obrigatório para aprovação de Pull Requests nas duas branches protegidas.
+
+---
+
+## Casos de Teste / Validação
+
+### CT-GIT-001
+
+Dado um Pull Request de `feature/*` para `develop` sem aprovação
+
+Quando a regra de proteção estiver ativa
+
+Então o merge deverá ser bloqueado pelo GitHub.
+
+---
+
+### CT-GIT-002
+
+Dado um Pull Request com pipeline de CI falhando
+
+Quando a regra de status check obrigatório estiver ativa
+
+Então o botão de merge deverá permanecer bloqueado.
+
+---
+
+### CT-GIT-003
+
+Dado um desenvolvedor tentando fazer push direto em `main`
+
+Quando a regra de proteção estiver ativa
+
+Então o push deverá ser rejeitado pelo GitHub.
+
+---
+
+## Artefatos Esperados
+
+* Configuração de Branch Protection Rules no repositório GitHub (via Settings → Branches).
+* Documentação deste fluxo no `README.md` ou `CONTRIBUTING.md` do repositório.
