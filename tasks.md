@@ -61,16 +61,16 @@
 
 ## Tasks por Spec
 
-### SPEC-001 — Arquitetura do Sistema (Tasks: TASK-001 a TASK-005)
-Critérios de Aceitação: CA-001 a CA-005
+### SPEC-001 — Arquitetura do Sistema (Tasks: TASK-001 a TASK-005) ✅
+Critérios de Aceitação: CA-001 a CA-005 ✅
 
-| Task ID | Descrição | Critério |
-|---------|-----------|----------|
-| TASK-001 | Configurar Docker Compose com PostgreSQL, backend NestJS e frontend Next.js | CA-001 |
-| TASK-002 | Configurar frontend Next.js acessível na porta configurada | CA-002 |
-| TASK-003 | Configurar backend NestJS acessível na porta configurada | CA-003 |
-| TASK-004 | Configurar banco PostgreSQL operacional | CA-004 |
-| TASK-005 | Configurar documentação Swagger no backend | CA-005 |
+| Task ID | Descrição | Critério | Status |
+|---------|-----------|----------|--------|
+| TASK-001 | Configurar Docker Compose com PostgreSQL, backend NestJS e frontend Next.js | CA-001 | ✅ |
+| TASK-002 | Configurar frontend Next.js acessível na porta configurada | CA-002 | ✅ |
+| TASK-003 | Configurar backend NestJS acessível na porta configurada | CA-003 | ✅ |
+| TASK-004 | Configurar banco PostgreSQL operacional | CA-004 | ✅ |
+| TASK-005 | Configurar documentação Swagger no backend | CA-005 | ✅ |
 
 ### SPEC-002 — Importação de Dados da Câmara (Tasks: TASK-006 a TASK-010)
 Critérios de Aceitação: CA-001 a CA-005
@@ -83,15 +83,15 @@ Critérios de Aceitação: CA-001 a CA-005
 | TASK-009 | Garantir consistência dos dados após múltiplas execuções | CA-004 |
 | TASK-010 | Implementar logging de erros de importação | CA-005 |
 
-### SPEC-003 — Modelo de Dados (Tasks: TASK-011 a TASK-014)
-Critérios de Aceitação: CA-001 a CA-004
+### SPEC-003 — Modelo de Dados (Tasks: TASK-011 a TASK-014) ✅
+Critérios de Aceitação: CA-001 a CA-004 ✅
 
-| Task ID | Descrição | Critério |
-|---------|-----------|----------|
-| TASK-011 | Criar schema Prisma com chaves estrangeiras entre entidades | CA-001 |
-| TASK-012 | Implementar constraint que impede gastos sem político associado | CA-002 |
-| TASK-013 | Implementar constraint que impede categorias inexistentes | CA-003 |
-| TASK-014 | Garantir que consultas históricas retornem todos os registros | CA-004 |
+| Task ID | Descrição | Critério | Status |
+|---------|-----------|----------|--------|
+| TASK-011 | Criar schema Prisma com chaves estrangeiras entre entidades | CA-001 | ✅ |
+| TASK-012 | Implementar constraint que impede gastos sem político associado | CA-002 | ✅ |
+| TASK-013 | Implementar constraint que impede categorias inexistentes | CA-003 | ✅ |
+| TASK-014 | Garantir que consultas históricas retornem todos os registros | CA-004 | ✅ |
 
 ### SPEC-004 — Ranking Nacional (Tasks: TASK-015 a TASK-019)
 Critérios de Aceitação: CA-001 a CA-005
