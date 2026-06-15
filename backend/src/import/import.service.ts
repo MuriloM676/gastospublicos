@@ -100,7 +100,7 @@ export class ImportService {
     return count;
   }
 
-  async importDespesas(ano: number, mes?: number): Promise<number> {
+  async importDespesas(ano: number, mes?: number, batchSize = 5): Promise<number> {
     this.logger.log(
       `Iniciando importação de despesas para ${ano}${mes ? `/${mes}` : ''}...`,
     );
@@ -129,7 +129,8 @@ export class ImportService {
 
     let total = 0;
     let completed = 0;
-    for (const pol of politicians) {
+
+    const processPolitician = async (pol: typeof politicians[0]) => {
       try {
         const despesas = await this.retry(
           () => this.camara.getDespesas(pol.externalId, ano, mes),
@@ -137,6 +138,7 @@ export class ImportService {
           2,
         );
 
+        let count = 0;
         for (const desp of despesas) {
           const externalId = `${pol.externalId}-${desp.ano}-${desp.mes}-${desp.numDocumento}`;
 
@@ -159,22 +161,30 @@ export class ImportService {
               description: desp.tipoDespesa,
               amount: desp.valorDocumento,
               expenseDate: new Date(desp.dataDocumento),
-              documentUrl: desp.urlDocumento,
+              documentUrl: desp.urlDocumento ?? '',
             },
           });
-          total++;
+          count++;
         }
-        completed++;
-        if (completed % 50 === 0) {
-          this.logger.log(
-            `Progresso: ${completed}/${politicians.length} deputados, ${total} despesas`,
-          );
-        }
+        return count;
       } catch (error: any) {
         this.logger.error(
           `Erro ao importar despesas do deputado ${pol.externalId}: ${error.message}`,
         );
+        return 0;
       }
+    };
+
+    // Process in parallel batches
+    for (let i = 0; i < politicians.length; i += batchSize) {
+      const batch = politicians.slice(i, i + batchSize);
+      const results = await Promise.all(batch.map(processPolitician));
+      const batchCount = results.reduce((a, b) => a + b, 0);
+      total += batchCount;
+      completed += batch.length;
+      this.logger.log(
+        `Progresso: ${completed}/${politicians.length} deputados, ${total} despesas`,
+      );
     }
 
     this.logger.log(`Importadas ${total} despesas de ${completed} deputados`);
