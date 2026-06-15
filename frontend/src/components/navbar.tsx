@@ -1,10 +1,11 @@
 import Link from "next/link";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+
 const navItems = [
   { label: "Rankings", href: "/rankings" },
   { label: "Mapa", href: "/mapa" },
   { label: "Dashboard", href: "/dashboard" },
-  { label: "API", href: "/api/docs" },
 ];
 
 export function Navbar() {
@@ -25,17 +26,25 @@ export function Navbar() {
               {item.label}
             </Link>
           ))}
+          <a
+            href={`${API_URL}/api/docs`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-[#9CA3AF] transition-colors hover:text-[#F9FAFB]"
+          >
+            API
+          </a>
         </div>
 
         <div className="flex items-center gap-4">
-          <Link
+          <a
             href="https://github.com"
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm text-[#9CA3AF] transition-colors hover:text-[#F9FAFB]"
           >
             GitHub
-          </Link>
+          </a>
         </div>
       </nav>
     </header>
