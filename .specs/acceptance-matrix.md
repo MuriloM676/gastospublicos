@@ -135,3 +135,30 @@
 | CA-003   | TASK-052 | TEST-052 |
 | CA-004   | TASK-053 | TEST-053 |
 | CA-005   | TASK-054 | TEST-054 |
+
+
+---
+
+## SPEC-014 - CI/CD
+
+| Critério | Task     | Teste          |
+| -------- | -------- | -------------- |
+| CI-001   | TASK-055 | TEST-CT-CI-001 |
+| CI-002   | TASK-056 | TEST-CT-CI-001 |
+| CI-003   | TASK-057 | TEST-CT-CI-006 |
+| CI-004   | TASK-058 | TEST-CT-CI-003 |
+| CI-005   | TASK-059 | TEST-CT-CI-004 |
+| CI-006   | TASK-060 | TEST-CT-CI-001 |
+| CI-007   | TASK-061 | TEST-CT-CI-001 |
+| CI-008   | TASK-062 | TEST-CT-CI-001 |
+| CI-009   | TASK-063 | TEST-CT-CI-005 |
+
+---
+
+## SPEC-GIT-001 - Estratégia de Branches
+
+| Critério | Task     | Teste        |
+| -------- | -------- | ------------ |
+| CA-001   | TASK-064 | CT-GIT-001   |
+| CA-002   | TASK-065 | CT-GIT-002   |
+| CA-003   | TASK-066 | CT-GIT-003   |

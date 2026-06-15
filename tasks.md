@@ -10,30 +10,32 @@
 | Ordem | Spec | Tema | Dependências |
 |-------|------|------|-------------|
 | 1 | SPEC-001 | Arquitetura do Sistema | Nenhuma |
-| 2 | SPEC-011 | Observabilidade | SPEC-001 |
-| 3 | SPEC-012 | Segurança e Performance | SPEC-001, SPEC-010 |
+| 2 | SPEC-014 | CI/CD e Validação Automatizada | SPEC-001 |
+| 3 | SPEC-GIT-001 | Estratégia de Branches | SPEC-014 |
+| 4 | SPEC-011 | Observabilidade | SPEC-001 |
+| 5 | SPEC-012 | Segurança e Performance | SPEC-001, SPEC-010 |
 
 ### FASE 1 — Dados (Backend + Banco)
 | Ordem | Spec | Tema | Dependências |
 |-------|------|------|-------------|
-| 4 | SPEC-003 | Modelo de Dados (Prisma Schema) | SPEC-001 |
-| 5 | SPEC-013 | Integração Câmara dos Deputados | SPEC-003 |
-| 6 | SPEC-002 | Importação de Dados da Câmara | SPEC-003, SPEC-013 |
+| 6 | SPEC-003 | Modelo de Dados (Prisma Schema) | SPEC-001 |
+| 7 | SPEC-013 | Integração Câmara dos Deputados | SPEC-003 |
+| 8 | SPEC-002 | Importação de Dados da Câmara | SPEC-003, SPEC-013 |
 
 ### FASE 2 — API (Backend)
 | Ordem | Spec | Tema | Dependências |
 |-------|------|------|-------------|
-| 7 | SPEC-010 | API Pública | SPEC-003, SPEC-001 |
+| 9 | SPEC-010 | API Pública | SPEC-003, SPEC-001 |
 
 ### FASE 3 — Funcionalidades Core (Frontend + Backend)
 | Ordem | Spec | Tema | Dependências |
 |-------|------|------|-------------|
-| 8 | SPEC-004 | Ranking Nacional | SPEC-003, SPEC-010 |
-| 9 | SPEC-005 | Perfil do Político | SPEC-003, SPEC-010, SPEC-004 |
-| 10 | SPEC-006 | Busca e Autocomplete | SPEC-003, SPEC-010 |
-| 11 | SPEC-007 | Rankings por Categoria | SPEC-003, SPEC-010, SPEC-004 |
-| 12 | SPEC-008 | Mapa do Brasil | SPEC-003, SPEC-010 |
-| 13 | SPEC-009 | Dashboard Analítico | SPEC-003, SPEC-010, SPEC-004 |
+| 10 | SPEC-004 | Ranking Nacional | SPEC-003, SPEC-010 |
+| 11 | SPEC-005 | Perfil do Político | SPEC-003, SPEC-010, SPEC-004 |
+| 12 | SPEC-006 | Busca e Autocomplete | SPEC-003, SPEC-010 |
+| 13 | SPEC-007 | Rankings por Categoria | SPEC-003, SPEC-010, SPEC-004 |
+| 14 | SPEC-008 | Mapa do Brasil | SPEC-003, SPEC-010 |
+| 15 | SPEC-009 | Dashboard Analítico | SPEC-003, SPEC-010, SPEC-004 |
 
 ---
 
@@ -44,6 +46,8 @@
 | Spec | Depende de | Fornece para |
 |------|-----------|-------------|
 | **SPEC-001** Arquitetura | — (raiz) | Todas as specs |
+| **SPEC-014** CI/CD | SPEC-001 | — (cross-cutting) |
+| **SPEC-GIT-001** Estratégia de Branches | SPEC-014 | — (cross-cutting) |
 | **SPEC-011** Observabilidade | SPEC-001 | — (cross-cutting) |
 | **SPEC-012** Segurança e Performance | SPEC-001, SPEC-010 | — (cross-cutting) |
 | **SPEC-003** Modelo de Dados | SPEC-001 | SPEC-002, SPEC-010, SPEC-013 |
@@ -135,6 +139,30 @@ Critérios de Aceitação: CA-001 a CA-004 ✅
 | TASK-031 | Implementar filtros (ano, estado, partido) em todas as categorias | CA-003 | ✅ |
 | TASK-032 | Exibir na interface a categoria atualmente selecionada | CA-004 | ✅ |
 
+### SPEC-014 — CI/CD (Tasks: TASK-055 a TASK-063)
+Critérios de Aceitação: CI-001 a CI-009
+
+| Task ID | Descrição | Critério | Status |
+|---------|-----------|----------|--------|
+| TASK-055 | Configurar execução automática do pipeline em Pull Requests para main/develop | CI-001 | ✅ |
+| TASK-056 | Configurar execução automática do pipeline em Push para main/develop | CI-002 | ✅ |
+| TASK-057 | Configurar instalação de dependências com cache do npm | CI-003 | ✅ |
+| TASK-058 | Configurar build da aplicação antes dos testes | CI-004 | ✅ |
+| TASK-059 | Configurar execução de testes unitários com cobertura mínima de 80% | CI-005 | ✅ |
+| TASK-060 | Configurar execução de testes E2E | CI-006 | ✅ |
+| TASK-061 | Configurar serviço PostgreSQL e execução de Prisma migrations no CI | CI-007 | ✅ |
+| TASK-062 | Garantir relatório de execução acessível nos logs do GitHub Actions | CI-008 | ✅ |
+| TASK-063 | Configurar gerenciamento de secrets (DATABASE_URL, JWT_SECRET) sem exposição | CI-009 | ✅ |
+
+### SPEC-GIT-001 — Estratégia de Branches (Tasks: TASK-064 a TASK-066)
+Critérios de Aceitação: CA-001 a CA-003
+
+| Task ID | Descrição | Critério | Status |
+|---------|-----------|----------|--------|
+| TASK-064 | Documentar estratégia de branches em CONTRIBUTING.md | CA-001 | ✅ |
+| TASK-065 | Configurar workflows de CI com status checks obrigatórios | CA-002 | ✅ |
+| TASK-066 | Configurar regras de proteção de branches (main/develop) | CA-003 | ✅ |
+
 ### SPEC-008 — Mapa do Brasil (Tasks: TASK-033 a TASK-036) ✅
 Critérios de Aceitação: CA-001 a CA-004 ✅
 
@@ -202,7 +230,7 @@ Critérios de Aceitação: CA-001 a CA-005 ✅
 
 ## Fases de Implementação (Resumo)
 
-1. **FASE 0 — Fundação**: Docker, Next.js, NestJS, PostgreSQL, Observabilidade, Segurança
+1. **FASE 0 — Fundação**: Docker, Next.js, NestJS, PostgreSQL, CI/CD, Branches, Observabilidade, Segurança
 2. **FASE 1 — Dados**: Schema Prisma, Integração com API Câmara, Importação e Sincronização
 3. **FASE 2 — API**: Endpoints REST públicos com documentação, paginação, filtros
 4. **FASE 3 — Features**: Ranking, Perfil, Busca, Categorias, Mapa, Dashboard
