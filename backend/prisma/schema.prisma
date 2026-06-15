@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Politician {
+  id               Int       @id @default(autoincrement())
+  externalId       Int       @unique
+  name             String
+  photoUrl         String    @default("")
+  stateId          Int
+  partyId          Int
+  currentRole      String    @default("")
+  firstElectionDate DateTime?
+
+  state    State     @relation(fields: [stateId], references: [id])
+  party    Party     @relation(fields: [partyId], references: [id])
+  expenses Expense[]
+  mandates Mandate[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Party {
+  id     Int         @id @default(autoincrement())
+  acronym String     @unique
+  name   String
+
+  politicians Politician[]
+}
+
+model State {
+  id   Int    @id @default(autoincrement())
+  code String @unique
+  name String
+
+  politicians Politician[]
+}
+
+model Expense {
+  id           Int    @id @default(autoincrement())
+  externalId   String @unique
+  politicianId Int
+  categoryId   Int
+  supplier     String @default("")
+  description  String @default("")
+  amount       Float
+  expenseDate  DateTime
+  documentUrl  String @default("")
+
+  politician Politician       @relation(fields: [politicianId], references: [id])
+  category   ExpenseCategory  @relation(fields: [categoryId], references: [id])
+}
+
+model ExpenseCategory {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  expenses Expense[]
+}
+
+model Mandate {
+  id           Int      @id @default(autoincrement())
+  politicianId Int
+  position     String
+  startDate    DateTime
+  endDate      DateTime?
+
+  politician Politician @relation(fields: [politicianId], references: [id])
+}
