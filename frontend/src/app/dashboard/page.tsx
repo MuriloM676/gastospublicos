@@ -3,6 +3,21 @@ import { formatCurrency } from "@/lib/api";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
+interface StateData {
+  state: string;
+  totalExpenses: number;
+}
+
+interface PartyData {
+  party: string;
+  totalExpenses: number;
+}
+
+interface CategoryData {
+  category: string;
+  totalExpenses: number;
+}
+
 async function fetchData(path: string) {
   const res = await fetch(`${API_URL}${path}`, { next: { revalidate: 300 } });
   return res.json();
@@ -57,7 +72,7 @@ export default async function DashboardPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {states.map((s: any, i: number) => (
+                  {(states as StateData[]).map((s, i) => (
                     <tr key={i} className="border-b border-[#374151]">
                       <td className="px-4 py-3 text-sm text-[#F9FAFB]">{s.state}</td>
                       <td className="px-4 py-3 text-sm text-right text-[#10B981]">{formatCurrency(s.totalExpenses)}</td>
@@ -80,7 +95,7 @@ export default async function DashboardPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {parties.slice(0, 20).map((p: any, i: number) => (
+                  {(parties as PartyData[]).slice(0, 20).map((p, i) => (
                     <tr key={i} className="border-b border-[#374151]">
                       <td className="px-4 py-3 text-sm text-[#F9FAFB]">{p.party}</td>
                       <td className="px-4 py-3 text-sm text-right text-[#10B981]">{formatCurrency(p.totalExpenses)}</td>
@@ -103,7 +118,7 @@ export default async function DashboardPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {categories.map((c: any, i: number) => (
+                  {(categories as CategoryData[]).map((c, i) => (
                     <tr key={i} className="border-b border-[#374151]">
                       <td className="px-4 py-3 text-sm text-[#F9FAFB]">{c.category}</td>
                       <td className="px-4 py-3 text-sm text-right text-[#10B981]">{formatCurrency(c.totalExpenses)}</td>
