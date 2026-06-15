@@ -1,0 +1,205 @@
+# SPEC-014 — Integração Contínua (CI/CD) e Validação Automatizada
+
+## Objetivo
+
+Garantir que toda alteração realizada no projeto Gastos Públicos seja validada automaticamente antes de ser integrada à branch principal.
+
+O sistema deverá executar verificações de qualidade, compilação e testes automatizados através do GitHub Actions.
+
+---
+
+## Problema
+
+Atualmente a execução dos testes depende de ações manuais dos desenvolvedores.
+
+Isso pode permitir que código com erros de compilação, regressões ou falhas de integração seja enviado para o repositório principal.
+
+---
+
+## Escopo
+
+Esta especificação cobre:
+
+* Execução automática de testes em Pull Requests.
+* Execução automática de testes em Push.
+* Validação da compilação do backend.
+* Execução dos testes unitários.
+* Execução dos testes E2E.
+* Publicação dos resultados da execução.
+
+Esta especificação não cobre:
+
+* Deploy automático.
+* Publicação de imagens Docker.
+* Ambientes de homologação ou produção.
+
+---
+
+## Requisitos Funcionais
+
+### CI-001 — Execução automática em Pull Requests
+
+Quando um Pull Request for aberto ou atualizado, o GitHub Actions deverá iniciar automaticamente o pipeline de validação.
+
+Critérios de aceitação:
+
+* Pipeline iniciado automaticamente.
+* Status visível no Pull Request.
+* Resultado registrado no GitHub.
+
+---
+
+### CI-002 — Execução automática em Push
+
+Quando houver push para branches monitoradas, o pipeline deverá ser executado automaticamente.
+
+Critérios de aceitação:
+
+* Pipeline iniciado sem intervenção manual.
+* Resultado disponível no histórico de Actions.
+
+---
+
+### CI-003 — Instalação de dependências
+
+O pipeline deverá instalar todas as dependências necessárias para execução do backend.
+
+Critérios de aceitação:
+
+* npm ci executado com sucesso.
+* Falhas de instalação interrompem a execução.
+
+---
+
+### CI-004 — Build da aplicação
+
+O backend deverá ser compilado antes da execução dos testes.
+
+Critérios de aceitação:
+
+* npm run build executado com sucesso.
+* Falhas de compilação interrompem o pipeline.
+
+---
+
+### CI-005 — Execução de testes unitários
+
+Todos os testes unitários deverão ser executados.
+
+Critérios de aceitação:
+
+* npm test executado.
+* Pipeline falha caso qualquer teste falhe.
+
+---
+
+### CI-006 — Execução de testes E2E
+
+Todos os testes E2E deverão ser executados.
+
+Critérios de aceitação:
+
+* npm run test:e2e executado.
+* Pipeline falha caso qualquer cenário falhe.
+
+---
+
+### CI-007 — Integração com Banco de Dados
+
+Caso o backend dependa de PostgreSQL para testes, o pipeline deverá provisionar um banco temporário.
+
+Critérios de aceitação:
+
+* Banco disponível antes dos testes.
+* Prisma migrations executadas.
+* Prisma Client gerado automaticamente.
+
+---
+
+### CI-008 — Relatório de execução
+
+O GitHub deverá exibir o resultado da execução.
+
+Critérios de aceitação:
+
+* Status Success ou Failure.
+* Logs acessíveis.
+* Identificação clara do estágio que falhou.
+
+---
+
+## Requisitos Não Funcionais
+
+### RNF-001
+
+O pipeline completo deverá finalizar em menos de 10 minutos.
+
+### RNF-002
+
+O pipeline deverá utilizar runners Linux Ubuntu.
+
+### RNF-003
+
+A execução deverá ser reproduzível e independente da máquina do desenvolvedor.
+
+---
+
+## Casos de Teste
+
+### CT-CI-001
+
+Dado um Pull Request válido
+
+Quando o pipeline for executado
+
+Então todos os testes deverão passar
+
+E o status deverá ser Success.
+
+---
+
+### CT-CI-002
+
+Dado um teste falhando
+
+Quando o pipeline for executado
+
+Então o workflow deverá falhar
+
+E impedir aprovação automática.
+
+---
+
+### CT-CI-003
+
+Dado um erro de compilação
+
+Quando o pipeline for executado
+
+Então a etapa Build deverá falhar
+
+E os testes não deverão ser executados.
+
+---
+
+## Artefatos Esperados
+
+.github/workflows/
+
+* test.yml
+* lint.yml
+
+Opcionalmente:
+
+* deploy.yml
+
+---
+
+## Dependências
+
+* Node.js
+* Jest
+* NestJS
+* Prisma
+* PostgreSQL
+* GitHub Actions
