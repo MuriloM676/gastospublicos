@@ -1,0 +1,58 @@
+# SPEC-008 - Mapa do Brasil
+
+Versão: v1
+
+## Objetivo
+
+Exibir dados financeiros por estado em um mapa interativo.
+
+## Escopo
+
+Visualização geográfica.
+
+## Regras de Negócio
+
+RN-001
+
+Cada estado deve possuir agregação própria.
+
+RN-002
+
+Os valores devem ser recalculados conforme filtros.
+
+RN-003
+
+O clique em um estado deve abrir informações detalhadas.
+
+## Dados do Estado
+
+* Total gasto
+* Quantidade de políticos
+* Média de gastos
+* Maior gastador
+* Partido com maior gasto
+
+## Critérios de Aceitação
+
+CA-001
+
+Todos os estados devem ser exibidos.
+
+CA-002
+
+Ao clicar em um estado os detalhes devem ser carregados.
+
+CA-003
+
+Os indicadores devem refletir os dados atuais.
+
+CA-004
+
+Os filtros globais devem impactar o mapa.
+
+## Testes
+
+* Renderização do mapa.
+* Agregações.
+* Filtros.
+* Interações.

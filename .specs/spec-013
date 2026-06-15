@@ -1,0 +1,85 @@
+# SPEC-013 - Integração Câmara dos Deputados
+
+Versão: v1
+
+## Objetivo
+
+Consumir exclusivamente dados oficiais da API Dados Abertos da Câmara dos Deputados.
+
+## Fonte Oficial
+
+https://dadosabertos.camara.leg.br/api/v2/
+
+## Endpoints Obrigatórios
+
+/deputados
+
+/deputados/{id}
+
+/deputados/{id}/despesas
+
+/partidos
+
+/legislaturas
+
+/referencias/deputados/tipoDespesa
+
+## Regras de Negócio
+
+RN-001
+
+O campo externalId deve utilizar o id oficial do deputado.
+
+RN-002
+
+A atualização deve ser incremental.
+
+RN-003
+
+As despesas devem ser associadas ao deputado correto.
+
+RN-004
+
+Os tipos de despesas devem ser sincronizados periodicamente.
+
+RN-005
+
+Nenhum dado deve ser criado manualmente.
+
+RN-006
+
+Todos os dados devem possuir origem rastreável.
+
+## Critérios de Aceitação
+
+CA-001
+
+Importar todos os deputados ativos.
+
+CA-002
+
+Importar despesas parlamentares.
+
+CA-003
+
+Importar partidos.
+
+CA-004
+
+Importar legislaturas.
+
+CA-005
+
+Importar categorias oficiais de despesa.
+
+CA-006
+
+Evitar duplicação durante sincronização.
+
+## Testes
+
+* Importação inicial.
+* Reimportação.
+* Consistência dos relacionamentos.
+* Atualização incremental.
+* Integridade dos dados.

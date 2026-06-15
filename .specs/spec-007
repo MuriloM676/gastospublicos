@@ -1,0 +1,61 @@
+# SPEC-007 - Rankings por Categoria
+
+Versão: v1
+
+## Objetivo
+
+Permitir análise dos gastos por categoria.
+
+## Categorias Mínimas
+
+* Combustível
+* Passagens
+* Hospedagem
+* Alimentação
+* Divulgação
+* Consultoria
+* Escritório
+* Outros
+
+## Regras de Negócio
+
+RN-001
+
+Cada ranking deve considerar apenas sua categoria.
+
+RN-002
+
+O usuário deve poder selecionar ano.
+
+RN-003
+
+O usuário deve poder selecionar estado.
+
+RN-004
+
+O usuário deve poder selecionar partido.
+
+## Critérios de Aceitação
+
+CA-001
+
+Cada categoria deve possuir ranking próprio.
+
+CA-002
+
+Os valores devem ser calculados corretamente.
+
+CA-003
+
+Os filtros devem funcionar em todas as categorias.
+
+CA-004
+
+A interface deve exibir a categoria selecionada.
+
+## Testes
+
+* Ranking por categoria.
+* Filtros.
+* Ordenação.
+* Soma de despesas.

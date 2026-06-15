@@ -1,0 +1,86 @@
+# SPEC-001 - Arquitetura do Sistema
+
+Versão: v1
+
+## Objetivo
+
+Definir a arquitetura padrão do sistema Transparência Política, garantindo consistência entre frontend, backend, banco de dados e infraestrutura.
+
+## Escopo
+
+Abrange toda a estrutura inicial do projeto.
+
+## Tecnologias Obrigatórias
+
+Frontend:
+
+* Next.js
+* TypeScript
+* TailwindCSS
+* Shadcn UI
+
+Backend:
+
+* NestJS
+* TypeScript
+* Prisma ORM
+
+Banco:
+
+* PostgreSQL
+
+Infraestrutura:
+
+* Docker
+* Docker Compose
+
+## Regras de Negócio
+
+RN-001
+
+Todo acesso ao banco deve ocorrer através do Prisma.
+
+RN-002
+
+Nenhuma consulta SQL deve ser realizada diretamente na aplicação.
+
+RN-003
+
+Todas as APIs devem possuir documentação Swagger.
+
+RN-004
+
+Todas as configurações devem ser carregadas através de variáveis de ambiente.
+
+RN-005
+
+O sistema deve funcionar integralmente através do Docker Compose.
+
+## Critérios de Aceitação
+
+CA-001
+
+O comando docker compose up deve iniciar todos os serviços.
+
+CA-002
+
+O frontend deve estar acessível na porta configurada.
+
+CA-003
+
+O backend deve estar acessível na porta configurada.
+
+CA-004
+
+O banco PostgreSQL deve estar operacional.
+
+CA-005
+
+A documentação Swagger deve estar disponível.
+
+## Testes
+
+* Validar conexão com banco.
+* Validar inicialização do backend.
+* Validar inicialização do frontend.
+* Validar geração do Swagger.

@@ -1,0 +1,77 @@
+# SPEC-005 - Perfil do Político
+
+Versão: v1
+
+## Objetivo
+
+Exibir informações completas sobre um político e seus gastos.
+
+## Escopo
+
+Página individual de político.
+
+## Dados Obrigatórios
+
+* Nome
+* Foto
+* Partido
+* Estado
+* Cargo atual
+* Data de entrada na política
+* Histórico de mandatos
+
+## Indicadores
+
+* Total gasto
+* Média mensal
+* Ranking nacional
+* Ranking estadual
+* Ranking do partido
+
+## Regras de Negócio
+
+RN-001
+
+O perfil deve ser carregado utilizando o identificador único do político.
+
+RN-002
+
+Os gastos devem ser agrupados por categoria.
+
+RN-003
+
+O histórico financeiro deve permanecer disponível.
+
+RN-004
+
+Os gráficos devem refletir os filtros aplicados.
+
+## Critérios de Aceitação
+
+CA-001
+
+O perfil deve exibir informações básicas do político.
+
+CA-002
+
+O perfil deve exibir resumo financeiro.
+
+CA-003
+
+O perfil deve exibir histórico de despesas.
+
+CA-004
+
+O perfil deve exibir evolução temporal dos gastos.
+
+CA-005
+
+O perfil deve exibir distribuição por categoria.
+
+## Testes
+
+* Carregamento do perfil.
+* Resumo financeiro.
+* Histórico.
+* Gráficos.
+* Agrupamentos.

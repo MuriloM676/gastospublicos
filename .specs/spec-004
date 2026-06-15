@@ -1,0 +1,75 @@
+# SPEC-004 - Ranking Nacional
+
+Versão: v1
+
+## Objetivo
+
+Exibir os parlamentares com maiores gastos públicos em rankings nacionais.
+
+## Escopo
+
+Página inicial do sistema.
+
+## Regras de Negócio
+
+RN-001
+
+O ranking deve considerar a soma de todas as despesas importadas.
+
+RN-002
+
+O ranking deve ser ordenado do maior para o menor valor gasto.
+
+RN-003
+
+Os cálculos devem ser realizados em tempo real a partir dos dados armazenados.
+
+RN-004
+
+Empates devem ser ordenados alfabeticamente pelo nome.
+
+RN-005
+
+O usuário deve poder filtrar por ano.
+
+RN-006
+
+O usuário deve poder filtrar por estado.
+
+RN-007
+
+O usuário deve poder filtrar por partido.
+
+RN-008
+
+O usuário deve poder filtrar por cargo.
+
+## Critérios de Aceitação
+
+CA-001
+
+A página inicial deve exibir os 3 maiores gastadores em destaque.
+
+CA-002
+
+A página inicial deve exibir ranking completo paginado.
+
+CA-003
+
+O valor apresentado deve corresponder à soma das despesas registradas.
+
+CA-004
+
+Os filtros devem atualizar o ranking corretamente.
+
+CA-005
+
+A ordenação deve permanecer correta após aplicação dos filtros.
+
+## Testes
+
+* Ordenação.
+* Paginação.
+* Filtros.
+* Soma de despesas.
+* Cenários com empate.

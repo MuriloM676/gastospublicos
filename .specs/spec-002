@@ -1,0 +1,87 @@
+# SPEC-002 - Importação de Dados da Câmara dos Deputados
+
+Versão: v1
+
+## Objetivo
+
+Importar e manter sincronizados os dados públicos da Câmara dos Deputados.
+
+## Escopo
+
+Coleta automática de parlamentares e despesas.
+
+## Dados Obrigatórios
+
+Deputados
+
+* id externo
+* nome
+* partido
+* estado
+* foto
+* situação
+
+Despesas
+
+* data
+* valor
+* fornecedor
+* documento
+* categoria
+* descrição
+
+## Regras de Negócio
+
+RN-001
+
+Nenhum deputado pode ser duplicado.
+
+RN-002
+
+A identificação principal deve utilizar o ID oficial da Câmara.
+
+RN-003
+
+Despesas repetidas não devem ser importadas novamente.
+
+RN-004
+
+A sincronização deve ser incremental.
+
+RN-005
+
+Falhas temporárias devem gerar nova tentativa automática.
+
+RN-006
+
+Toda importação deve gerar log.
+
+## Critérios de Aceitação
+
+CA-001
+
+O sistema deve importar todos os deputados ativos.
+
+CA-002
+
+O sistema deve importar as despesas associadas.
+
+CA-003
+
+Uma nova sincronização não pode criar registros duplicados.
+
+CA-004
+
+Os dados devem permanecer consistentes após múltiplas execuções.
+
+CA-005
+
+Erros de importação devem ser registrados.
+
+## Testes
+
+* Importação inicial.
+* Reimportação.
+* Prevenção de duplicidade.
+* Falha temporária da API.
+* Recuperação automática.

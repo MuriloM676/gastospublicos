@@ -1,0 +1,54 @@
+# SPEC-009 - Dashboard Analítico
+
+Versão: v1
+
+## Objetivo
+
+Disponibilizar análises avançadas dos gastos públicos.
+
+## Gráficos Obrigatórios
+
+* Evolução mensal
+* Evolução anual
+* Gastos por categoria
+* Gastos por partido
+* Gastos por estado
+
+## Regras de Negócio
+
+RN-001
+
+Todos os gráficos devem utilizar a mesma fonte de dados.
+
+RN-002
+
+Todos os gráficos devem respeitar filtros globais.
+
+RN-003
+
+Os dados devem ser recalculados em tempo real.
+
+## Critérios de Aceitação
+
+CA-001
+
+Todos os gráficos devem carregar corretamente.
+
+CA-002
+
+Os filtros devem refletir em todos os gráficos.
+
+CA-003
+
+Os dados apresentados devem ser consistentes.
+
+CA-004
+
+Não devem existir divergências entre rankings e gráficos.
+
+## Testes
+
+* Consistência dos gráficos.
+* Aplicação de filtros.
+* Agregações.
+* Performance.

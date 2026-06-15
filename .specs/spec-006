@@ -1,0 +1,62 @@
+# SPEC-006 - Busca e Autocomplete
+
+Versão: v1
+
+## Objetivo
+
+Permitir localização rápida de políticos.
+
+## Escopo
+
+Busca global do sistema.
+
+## Campos Pesquisáveis
+
+* Nome
+* Partido
+* Estado
+* Cargo
+
+## Regras de Negócio
+
+RN-001
+
+A busca deve ignorar diferenças entre maiúsculas e minúsculas.
+
+RN-002
+
+A busca deve ignorar acentos.
+
+RN-003
+
+O sistema deve sugerir resultados enquanto o usuário digita.
+
+RN-004
+
+Resultados mais relevantes devem aparecer primeiro.
+
+## Critérios de Aceitação
+
+CA-001
+
+O usuário deve localizar um político pelo nome.
+
+CA-002
+
+O usuário deve localizar políticos por partido.
+
+CA-003
+
+O autocomplete deve retornar sugestões.
+
+CA-004
+
+A busca deve responder em menos de 500ms para bases indexadas.
+
+## Testes
+
+* Busca por nome.
+* Busca por partido.
+* Busca sem acento.
+* Busca parcial.
+* Autocomplete.

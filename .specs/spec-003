@@ -1,0 +1,117 @@
+# SPEC-003 - Modelo de Dados
+
+Versão: v1
+
+## Objetivo
+
+Definir a estrutura central de armazenamento dos dados políticos.
+
+## Entidades
+
+Politician
+
+Campos:
+
+* id
+* externalId
+* name
+* photoUrl
+* stateId
+* partyId
+* currentRole
+* firstElectionDate
+* createdAt
+* updatedAt
+
+Party
+
+Campos:
+
+* id
+* acronym
+* name
+
+State
+
+Campos:
+
+* id
+* code
+* name
+
+Expense
+
+Campos:
+
+* id
+* externalId
+* politicianId
+* categoryId
+* supplier
+* description
+* amount
+* expenseDate
+
+ExpenseCategory
+
+Campos:
+
+* id
+* name
+
+Mandate
+
+Campos:
+
+* id
+* politicianId
+* position
+* startDate
+* endDate
+
+## Regras de Negócio
+
+RN-001
+
+Todo gasto deve pertencer a um político.
+
+RN-002
+
+Toda categoria deve existir antes de um gasto ser criado.
+
+RN-003
+
+Um político pode possuir múltiplos mandatos.
+
+RN-004
+
+O histórico nunca deve ser apagado.
+
+RN-005
+
+Não utilizar soft delete.
+
+## Critérios de Aceitação
+
+CA-001
+
+As relações devem ser mantidas por chaves estrangeiras.
+
+CA-002
+
+O banco deve impedir gastos sem político associado.
+
+CA-003
+
+O banco deve impedir categorias inexistentes.
+
+CA-004
+
+Consultas históricas devem retornar todos os registros.
+
+## Testes
+
+* Integridade relacional.
+* Constraints.
+* Criação de relacionamentos.
+* Consultas históricas.

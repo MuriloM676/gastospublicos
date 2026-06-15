@@ -1,0 +1,73 @@
+# SPEC-010 - API Pública
+
+Versão: v1
+
+## Objetivo
+
+Disponibilizar dados públicos para consumo externo.
+
+## Endpoints
+
+GET /politicians
+
+GET /politicians/:id
+
+GET /rankings
+
+GET /expenses
+
+GET /states
+
+GET /parties
+
+## Regras de Negócio
+
+RN-001
+
+Todos os endpoints devem ser documentados.
+
+RN-002
+
+Todos os endpoints devem suportar paginação.
+
+RN-003
+
+Todos os endpoints devem suportar ordenação.
+
+RN-004
+
+Todos os endpoints devem suportar filtros.
+
+RN-005
+
+Rate limiting deve ser aplicado.
+
+## Critérios de Aceitação
+
+CA-001
+
+Todos os endpoints devem responder corretamente.
+
+CA-002
+
+A documentação Swagger deve estar atualizada.
+
+CA-003
+
+Paginação deve funcionar.
+
+CA-004
+
+Filtros devem funcionar.
+
+CA-005
+
+Rate limiting deve impedir abuso.
+
+## Testes
+
+* Endpoints.
+* Paginação.
+* Ordenação.
+* Filtros.
+* Rate limit.
